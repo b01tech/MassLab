@@ -2,7 +2,9 @@ using MassLib.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDocumentation();
+builder.Services
+    .AddInfrastructure(builder.Configuration)
+    .AddDocumentation();
 
 var app = builder.Build();
 
