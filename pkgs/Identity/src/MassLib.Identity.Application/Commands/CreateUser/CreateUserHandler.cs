@@ -19,7 +19,7 @@ public class CreateUserHandler(IUserRepository repository, IUnitOfWork uow, IEnc
 
         var passwordResult = Password.Create(request.Password);
         if (passwordResult.IsFailure)
-             return Result<UserResponse>.Failure(passwordResult.Errors);
+            return Result<UserResponse>.Failure(passwordResult.Errors);
 
         var passwordHash = encrypter.Encrypt(request.Password);
         var userResult = User.Create(request.UserName, passwordHash, request.Role);
@@ -33,4 +33,3 @@ public class CreateUserHandler(IUserRepository repository, IUnitOfWork uow, IEnc
         return new UserResponse(user.Id, user.UserName.Value, user.Role, user.Active);
     }
 }
-
