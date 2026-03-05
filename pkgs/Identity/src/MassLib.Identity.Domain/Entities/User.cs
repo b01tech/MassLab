@@ -8,8 +8,8 @@ namespace MassLib.Identity.Domain.Entities;
 
 public class User : Entity
 {
-    public string UserName { get; private set; }
-    public string HashPassword { get; private set; }
+    public Name UserName { get; private set; }
+    public Hash HashPassword { get; private set; }
     public UserRole Role { get; private set; }
     public bool Active { get; private set; } = true;
 
@@ -26,8 +26,8 @@ public class User : Entity
 
         return new User
         {
-            UserName = nameResult.Data.Value,
-            HashPassword = hashResult.Data.Value,
+            UserName = nameResult.Data,
+            HashPassword = hashResult.Data,
             Role = role
         };
     }
@@ -38,7 +38,7 @@ public class User : Entity
         if (nameResult.IsFailure)
             return nameResult;
 
-        UserName = nameResult.Data.Value;
+        UserName = nameResult.Data;
         Role = role;
         SetUpdatedAt();
 
@@ -63,7 +63,7 @@ public class User : Entity
         if (hashResult.IsFailure)
             return hashResult;
 
-        HashPassword = hashResult.Data.Value;
+        HashPassword = hashResult.Data;
         SetUpdatedAt();
         return Result.Success();
     }

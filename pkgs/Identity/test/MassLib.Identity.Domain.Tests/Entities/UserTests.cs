@@ -34,8 +34,8 @@ public class UserTests
         var result = User.Create(name, hash, role);
 
         Assert.True(result.IsSuccess);
-        Assert.Equal(name, result.Data.UserName);
-        Assert.Equal(hash, result.Data.HashPassword);
+        Assert.Equal(name, result.Data.UserName.Value);
+        Assert.Equal(hash, result.Data.HashPassword.Value);
         Assert.Equal(role, result.Data.Role);
         Assert.True(result.Data.Active);
     }
@@ -73,7 +73,7 @@ public class UserTests
         var result = user.Update(newName, newRole);
 
         Assert.True(result.IsSuccess);
-        Assert.Equal(newName, user.UserName);
+        Assert.Equal(newName, user.UserName.Value);
         Assert.Equal(newRole, user.Role);
         Assert.NotNull(user.UpdatedAt);
     }
@@ -87,7 +87,7 @@ public class UserTests
         var result = user.ChangePassword(newHash);
 
         Assert.True(result.IsSuccess);
-        Assert.Equal(newHash, user.HashPassword);
+        Assert.Equal(newHash, user.HashPassword.Value);
         Assert.NotNull(user.UpdatedAt);
     }
 }
