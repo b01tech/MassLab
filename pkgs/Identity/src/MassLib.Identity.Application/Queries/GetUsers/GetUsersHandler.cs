@@ -13,7 +13,7 @@ public class GetUsersHandler(IUserRepository repository)
         var total = await repository.GetTotalCountAsync(cancellationToken);
         var pagination = Pagination.Create(request.Page, request.PageSize, total);
         var users = await repository.GetAllAsync(pagination.Page, pagination.PageSize, cancellationToken);
-        var response = users.Select(user => new UserResponse(user.Id, user.UserName.Value, user.Role, user.Active));
+        var response = users.Select(user => new UserResponse(user.Id, user.UserName.Value, user.Role.ToString(), user.Active));
 
         return new PaginatedUserResponse(Pagination: pagination, Data: response);
     }

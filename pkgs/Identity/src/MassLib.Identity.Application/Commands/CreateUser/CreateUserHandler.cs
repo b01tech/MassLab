@@ -1,5 +1,6 @@
 using MassLib.Identity.Application.DTOs;
 using MassLib.Identity.Domain.Entities;
+using MassLib.Identity.Domain.Enums;
 using MassLib.Identity.Domain.Interfaces;
 using MassLib.Identity.Domain.ValueObjects;
 using MassLib.Shared.Errors;
@@ -13,6 +14,9 @@ public class CreateUserHandler(IUserRepository repository, IUnitOfWork uow, IEnc
 
     public async Task<Result<UserResponse>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
+        if (!Enum.TryParse<UserRole>(request.Role, true, out var role) || !Enum.IsDefined(typeof(UserRole), role))
+            return Result<UserResponse>.Failure(ErrorMessages.ROLE_INVALID);
+
         var existingUser = await repository.GetByUserNameAsync(request.UserName, cancellationToken);
         if (existingUser is not null)
             return Result<UserResponse>.Failure(ErrorMessages.USERNAME_ALREADY_REGISTERED);
@@ -22,7 +26,7 @@ public class CreateUserHandler(IUserRepository repository, IUnitOfWork uow, IEnc
             return Result<UserResponse>.Failure(passwordResult.Errors);
 
         var passwordHash = encrypter.Encrypt(request.Password);
-        var userResult = User.Create(request.UserName, passwordHash, request.Role);
+        var userResult = User.Create(request.UserName, passwordHash, role);
         if (userResult.IsFailure)
             return Result<UserResponse>.Failure(userResult.Errors);
 
@@ -30,6 +34,6 @@ public class CreateUserHandler(IUserRepository repository, IUnitOfWork uow, IEnc
         await repository.AddAsync(user, cancellationToken);
         await uow.CommitAsync();
 
-        return new UserResponse(user.Id, user.UserName.Value, user.Role, user.Active);
+        return new UserResponse(user.Id, user.UserName.Value, user.Role.ToString(), user.Active);
     }
 }

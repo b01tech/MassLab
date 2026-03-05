@@ -4,4 +4,4 @@ using MassLib.Shared.Results;
 
 namespace MassLib.Identity.Application.Commands.UpdateUser;
 
-public record UpdateUserCommand(Guid UserId, string UserName, UserRole Role);
+public record UpdateUserCommand(Guid UserId, string UserName, string Role);

@@ -4,4 +4,4 @@ using MassLib.Shared.Results;
 
 namespace MassLib.Identity.Application.Commands.CreateUser;
 
-public record CreateUserCommand(string UserName, string Password, UserRole Role);
+public record CreateUserCommand(string UserName, string Password, string Role);

@@ -22,10 +22,25 @@ public class UpdateUserHandlerTests
     }
 
     [Fact]
+    public async Task Handle_ShouldReturnFailure_WhenRoleIsInvalid()
+    {
+        // Arrange
+        var command = new UpdateUserCommand(Guid.CreateVersion7(), "new_name", "InvalidRole");
+
+        // Act
+        var result = await _handler.Handle(command, CancellationToken.None);
+
+        // Assert
+        Assert.True(result.IsFailure);
+        Assert.Contains(ErrorMessages.ROLE_INVALID, result.Errors);
+        _userRepositoryMock.Verify(x => x.UpdateAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()), Times.Never);
+    }
+
+    [Fact]
     public async Task Handle_ShouldReturnFailure_WhenUserNotFound()
     {
         // Arrange
-        var command = new UpdateUserCommand(Guid.CreateVersion7(), "new_name", UserRole.Manager);
+        var command = new UpdateUserCommand(Guid.CreateVersion7(), "new_name", "Manager");
 
         _userRepositoryMock.Setup(x => x.GetByIdAsync(command.UserId, It.IsAny<CancellationToken>()))
             .ReturnsAsync((User?)null);
@@ -43,7 +58,7 @@ public class UpdateUserHandlerTests
     {
         // Arrange
         var user = User.Create("old_name", "hash", UserRole.Operator).Data;
-        var command = new UpdateUserCommand(user.Id, "new_name", UserRole.Manager);
+        var command = new UpdateUserCommand(user.Id, "new_name", "Manager");
 
         _userRepositoryMock.Setup(x => x.GetByIdAsync(command.UserId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(user);
