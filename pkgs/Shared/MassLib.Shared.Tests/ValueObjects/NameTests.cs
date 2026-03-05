@@ -68,4 +68,48 @@ public class NameTests
         Assert.True(result.IsSuccess);
         Assert.Equal("John Doe", result.Data.Value);
     }
+
+    [Fact]
+    public void Create_ShouldReturnFailure_WhenNameIsShorterThanCustomMin()
+    {
+        // Arrange
+        var name = "Short";
+        var min = 10;
+
+        // Act
+        var result = Name.Create(name, min: min);
+
+        // Assert
+        Assert.True(result.IsFailure);
+        Assert.Contains(ErrorMessages.NAME_TOO_SHORT, result.Errors);
+    }
+
+    [Fact]
+    public void Create_ShouldReturnFailure_WhenNameIsLongerThanCustomMax()
+    {
+        // Arrange
+        var name = "Too Long Name";
+        var max = 5;
+
+        // Act
+        var result = Name.Create(name, max: max);
+
+        // Assert
+        Assert.True(result.IsFailure);
+        Assert.Contains(ErrorMessages.NAME_TOO_LONG, result.Errors);
+    }
+
+    [Fact]
+    public void ToString_ShouldReturnNameValue()
+    {
+        // Arrange
+        var nameValue = "John Doe";
+        var name = Name.Create(nameValue).Data;
+
+        // Act
+        var result = name.ToString();
+
+        // Assert
+        Assert.Equal(nameValue, result);
+    }
 }
