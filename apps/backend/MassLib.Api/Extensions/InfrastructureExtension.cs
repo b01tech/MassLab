@@ -1,4 +1,5 @@
 ﻿using MassLib.Api.Persistence;
+using MassLib.Identity.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
 namespace MassLib.Api.Extensions;
@@ -10,6 +11,8 @@ public static class InfrastructureExtension
         var connectionString = configuration.GetConnectionString("DefaultConnection");
         services.AddDbContext<AppDbContext>(options =>
             options.UseNpgsql(connectionString));
+
+        services.AddScoped<IIdentityDbContext, AppDbContext>();
 
         return services;
     }
