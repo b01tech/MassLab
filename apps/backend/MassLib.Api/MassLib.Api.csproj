@@ -19,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\pkgs\Identity\src\MassLib.Identity.Infrastructure\MassLib.Identity.Infrastructure.csproj" />
     <ProjectReference Include="..\..\..\pkgs\Shared\MassLib.Shared\MassLib.Shared.csproj" />
+    <ProjectReference Include="..\..\..\pkgs\Identity\src\MassLib.Identity.Application\MassLib.Identity.Application.csproj" />
   </ItemGroup>
 
 </Project>
