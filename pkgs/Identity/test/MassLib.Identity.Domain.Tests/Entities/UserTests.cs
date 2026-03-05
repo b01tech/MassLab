@@ -9,7 +9,7 @@ public class UserTests
     [Fact]
     public void Create_ShouldReturnFailure_WhenNameIsInvalid()
     {
-        var result = User.Create("", "valid_hash", UserRole.Operator);
+        var result = User.Create("", "valid_hash", "Operator");
 
         Assert.True(result.IsFailure);
         Assert.Contains(ErrorMessages.NAME_INVALID, result.Errors);
@@ -18,10 +18,19 @@ public class UserTests
     [Fact]
     public void Create_ShouldReturnFailure_WhenHashIsInvalid()
     {
-        var result = User.Create("Valid Name", "", UserRole.Operator);
+        var result = User.Create("Valid Name", "", "Operator");
 
         Assert.True(result.IsFailure);
         Assert.Contains(ErrorMessages.HASH_INVALID, result.Errors);
+    }
+
+    [Fact]
+    public void Create_ShouldReturnFailure_WhenRoleIsInvalid()
+    {
+        var result = User.Create("Valid Name", "valid_hash", "InvalidRole");
+
+        Assert.True(result.IsFailure);
+        Assert.Contains(ErrorMessages.ROLE_INVALID, result.Errors);
     }
 
     [Fact]
@@ -29,21 +38,21 @@ public class UserTests
     {
         var name = "Valid Name";
         var hash = "valid_hash";
-        var role = UserRole.Admin;
+        var role = "Admin";
 
         var result = User.Create(name, hash, role);
 
         Assert.True(result.IsSuccess);
         Assert.Equal(name, result.Data.UserName.Value);
         Assert.Equal(hash, result.Data.HashPassword.Value);
-        Assert.Equal(role, result.Data.Role);
+        Assert.Equal(UserRole.Admin, result.Data.Role);
         Assert.True(result.Data.Active);
     }
 
     [Fact]
     public void Deactivate_ShouldSetActiveToFalse()
     {
-        var user = User.Create("Valid Name", "valid_hash", UserRole.Operator).Data;
+        var user = User.Create("Valid Name", "valid_hash", "Operator").Data;
 
         user.Deactivate();
 
@@ -54,7 +63,7 @@ public class UserTests
     [Fact]
     public void Activate_ShouldSetActiveToTrue()
     {
-        var user = User.Create("Valid Name", "valid_hash", UserRole.Operator).Data;
+        var user = User.Create("Valid Name", "valid_hash", "Operator").Data;
         user.Deactivate();
 
         user.Activate();
@@ -66,22 +75,35 @@ public class UserTests
     [Fact]
     public void Update_ShouldUpdateNameAndRole()
     {
-        var user = User.Create("Valid Name", "valid_hash", UserRole.Operator).Data;
+        var user = User.Create("Valid Name", "valid_hash", "Operator").Data;
         var newName = "New Name";
-        var newRole = UserRole.Manager;
+        var newRole = "Manager";
 
         var result = user.Update(newName, newRole);
 
         Assert.True(result.IsSuccess);
         Assert.Equal(newName, user.UserName.Value);
-        Assert.Equal(newRole, user.Role);
+        Assert.Equal(UserRole.Manager, user.Role);
         Assert.NotNull(user.UpdatedAt);
+    }
+
+    [Fact]
+    public void Update_ShouldReturnFailure_WhenRoleIsInvalid()
+    {
+        var user = User.Create("Valid Name", "valid_hash", "Operator").Data;
+        var newName = "New Name";
+        var newRole = "InvalidRole";
+
+        var result = user.Update(newName, newRole);
+
+        Assert.True(result.IsFailure);
+        Assert.Contains(ErrorMessages.ROLE_INVALID, result.Errors);
     }
 
     [Fact]
     public void ChangePassword_ShouldUpdatePasswordHash()
     {
-        var user = User.Create("Valid Name", "valid_hash", UserRole.Operator).Data;
+        var user = User.Create("Valid Name", "valid_hash", "Operator").Data;
         var newHash = "new_valid_hash";
 
         var result = user.ChangePassword(newHash);

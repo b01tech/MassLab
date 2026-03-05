@@ -1,6 +1,7 @@
 ﻿using MassLib.Identity.Domain.Enums;
 using MassLib.Identity.Domain.ValueObjects;
 using MassLib.Shared.Entities;
+using MassLib.Shared.Errors;
 using MassLib.Shared.Results;
 using MassLib.Shared.ValueObject;
 
@@ -16,30 +17,33 @@ public class User : Entity
     private User()
         : base() { }
 
-    public static Result<User> Create(string name, string hash, UserRole role)
+    public static Result<User> Create(string name, string hash, string role)
     {
         var nameResult = Name.Create(name);
         var hashResult = Hash.Create(hash);
+        var userRoleResult = ValidateUserRole(role);
 
-        if (nameResult.IsFailure || hashResult.IsFailure)
-            return Result<User>.Failure(Result.MergeErrors(nameResult, hashResult));
+        if (nameResult.IsFailure || hashResult.IsFailure || userRoleResult.IsFailure)
+            return Result<User>.Failure(Result.MergeErrors(nameResult, hashResult, userRoleResult));
 
         return new User
         {
             UserName = nameResult.Data,
             HashPassword = hashResult.Data,
-            Role = role
+            Role = userRoleResult.Data
         };
     }
 
-    public Result Update(string name, UserRole role)
+    public Result Update(string name, string role)
     {
         var nameResult = Name.Create(name);
-        if (nameResult.IsFailure)
-            return nameResult;
+        var roleResult = ValidateUserRole(role);
+
+        if (nameResult.IsFailure || roleResult.IsFailure)
+            return Result.Failure(Result.MergeErrors(nameResult, roleResult));
 
         UserName = nameResult.Data;
-        Role = role;
+        Role = roleResult.Data;
         SetUpdatedAt();
 
         return Result.Success();
@@ -66,5 +70,13 @@ public class User : Entity
         HashPassword = hashResult.Data;
         SetUpdatedAt();
         return Result.Success();
+    }
+
+    private static Result<UserRole> ValidateUserRole(string userRole)
+    {
+        if (Enum.TryParse<UserRole>(userRole, true, out var role) && Enum.IsDefined(typeof(UserRole), role))
+            return Result<UserRole>.Success(role);
+
+        return Result<UserRole>.Failure(ErrorMessages.ROLE_INVALID);
     }
 }

@@ -11,12 +11,8 @@ namespace MassLib.Identity.Application.Commands.CreateUser;
 
 public class CreateUserHandler(IUserRepository repository, IUnitOfWork uow, IEncrypter encrypter)
 {
-
     public async Task<Result<UserResponse>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
-        if (!Enum.TryParse<UserRole>(request.Role, true, out var role) || !Enum.IsDefined(typeof(UserRole), role))
-            return Result<UserResponse>.Failure(ErrorMessages.ROLE_INVALID);
-
         var existingUser = await repository.GetByUserNameAsync(request.UserName, cancellationToken);
         if (existingUser is not null)
             return Result<UserResponse>.Failure(ErrorMessages.USERNAME_ALREADY_REGISTERED);
@@ -26,7 +22,7 @@ public class CreateUserHandler(IUserRepository repository, IUnitOfWork uow, IEnc
             return Result<UserResponse>.Failure(passwordResult.Errors);
 
         var passwordHash = encrypter.Encrypt(request.Password);
-        var userResult = User.Create(request.UserName, passwordHash, role);
+        var userResult = User.Create(request.UserName, passwordHash, request.Role);
         if (userResult.IsFailure)
             return Result<UserResponse>.Failure(userResult.Errors);
 
