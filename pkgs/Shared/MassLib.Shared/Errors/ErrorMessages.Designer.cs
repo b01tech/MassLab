@@ -188,5 +188,15 @@ namespace MassLib.Shared.Errors
                 return ResourceManager.GetString("USERNAME_ALREADY_REGISTERED", resourceCulture);
             }
         }
+        /// <summary>
+        ///   Looks up a localized string similar to Role is invalid.
+        /// </summary>
+        public static string ROLE_INVALID
+        {
+            get
+            {
+                return ResourceManager.GetString("ROLE_INVALID", resourceCulture);
+            }
+        }
     }
 }
