@@ -23,8 +23,8 @@ public class GetUsersHandlerTests
         // Arrange
         var users = new List<User>
         {
-            User.Create("user1", "hash1", UserRole.Operator).Data!,
-            User.Create("user2", "hash2", UserRole.Admin).Data!
+            User.Create("user1", "hash1", "Operator").Data!,
+            User.Create("user2", "hash2", "Admin").Data!
         };
 
         _userRepositoryMock.Setup(x => x.GetAllAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<CancellationToken>()))

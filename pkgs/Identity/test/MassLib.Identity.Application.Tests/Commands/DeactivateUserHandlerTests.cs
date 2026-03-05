@@ -42,7 +42,7 @@ public class DeactivateUserHandlerTests
     public async Task Handle_ShouldDeactivateUser_WhenUserExists()
     {
         // Arrange
-        var user = User.Create("user", "hash", UserRole.Operator).Data;
+        var user = User.Create("user", "hash", "Operator").Data;
         var command = new DeactivateUserCommand(user.Id);
 
         _userRepositoryMock.Setup(x => x.GetByIdAsync(command.UserId, It.IsAny<CancellationToken>()))

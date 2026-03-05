@@ -44,7 +44,7 @@ public class ChangePasswordHandlerTests
     public async Task Handle_ShouldReturnSuccess_WhenPasswordChangedSuccessfully()
     {
         // Arrange
-        var user = User.Create("user", "old_hash", UserRole.Operator).Data;
+        var user = User.Create("user", "old_hash", "Operator").Data;
         var command = new ChangePasswordCommand(user.Id, "NewPass123!");
         var newHash = "new_hashed_password";
 

@@ -28,7 +28,8 @@ public class LoginHandlerTests
         // Arrange
         var command = new LoginCommand("non_existent", "password");
 
-        _userRepositoryMock.Setup(x => x.GetByUserNameAsync(command.UserName, It.IsAny<CancellationToken>()))
+        _userRepositoryMock
+            .Setup(x => x.GetByUserNameAsync(command.UserName, It.IsAny<CancellationToken>()))
             .ReturnsAsync((User?)null);
 
         // Act
@@ -44,13 +45,13 @@ public class LoginHandlerTests
     {
         // Arrange
         var command = new LoginCommand("user", "wrong_password");
-        var user = User.Create("user", "hash", UserRole.Operator).Data;
+        var user = User.Create("user", "hash", "Operator").Data;
 
-        _userRepositoryMock.Setup(x => x.GetByUserNameAsync(command.UserName, It.IsAny<CancellationToken>()))
+        _userRepositoryMock
+            .Setup(x => x.GetByUserNameAsync(command.UserName, It.IsAny<CancellationToken>()))
             .ReturnsAsync(user);
 
-        _encrypterMock.Setup(x => x.Verify(command.Password, user.HashPassword.Value))
-            .Returns(false);
+        _encrypterMock.Setup(x => x.Verify(command.Password, user.HashPassword.Value)).Returns(false);
 
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);
@@ -65,14 +66,14 @@ public class LoginHandlerTests
     {
         // Arrange
         var command = new LoginCommand("inactive_user", "password");
-        var user = User.Create("inactive_user", "hash", UserRole.Operator).Data;
+        var user = User.Create("inactive_user", "hash", "Operator").Data;
         user.Deactivate();
 
-        _userRepositoryMock.Setup(x => x.GetByUserNameAsync(command.UserName, It.IsAny<CancellationToken>()))
+        _userRepositoryMock
+            .Setup(x => x.GetByUserNameAsync(command.UserName, It.IsAny<CancellationToken>()))
             .ReturnsAsync(user);
 
-        _encrypterMock.Setup(x => x.Verify(command.Password, user.HashPassword.Value))
-            .Returns(true);
+        _encrypterMock.Setup(x => x.Verify(command.Password, user.HashPassword.Value)).Returns(true);
 
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);
@@ -87,13 +88,13 @@ public class LoginHandlerTests
     {
         // Arrange
         var command = new LoginCommand("valid_user", "password");
-        var user = User.Create("valid_user", "hash", UserRole.Operator).Data;
+        var user = User.Create("valid_user", "hash", "Operator").Data;
 
-        _userRepositoryMock.Setup(x => x.GetByUserNameAsync(command.UserName, It.IsAny<CancellationToken>()))
+        _userRepositoryMock
+            .Setup(x => x.GetByUserNameAsync(command.UserName, It.IsAny<CancellationToken>()))
             .ReturnsAsync(user);
 
-        _encrypterMock.Setup(x => x.Verify(command.Password, user.HashPassword.Value))
-            .Returns(true);
+        _encrypterMock.Setup(x => x.Verify(command.Password, user.HashPassword.Value)).Returns(true);
 
         _tokenServiceMock.Setup(x => x.GenerateAccessToken(user)).Returns("access_token");
         _tokenServiceMock.Setup(x => x.GenerateRefreshToken()).Returns("refresh_token");
@@ -107,5 +108,3 @@ public class LoginHandlerTests
         Assert.Equal("refresh_token", result.Data.RefreshToken);
     }
 }
-
-

@@ -25,7 +25,12 @@ public class UpdateUserHandlerTests
     public async Task Handle_ShouldReturnFailure_WhenRoleIsInvalid()
     {
         // Arrange
-        var command = new UpdateUserCommand(Guid.CreateVersion7(), "new_name", "InvalidRole");
+        var user = User.Create("old_name", "hash", "Operator").Data;
+        var command = new UpdateUserCommand(user.Id, "new_name", "InvalidRole");
+
+        _userRepositoryMock
+            .Setup(x => x.GetByIdAsync(command.UserId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(user);
 
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);
@@ -42,7 +47,8 @@ public class UpdateUserHandlerTests
         // Arrange
         var command = new UpdateUserCommand(Guid.CreateVersion7(), "new_name", "Manager");
 
-        _userRepositoryMock.Setup(x => x.GetByIdAsync(command.UserId, It.IsAny<CancellationToken>()))
+        _userRepositoryMock
+            .Setup(x => x.GetByIdAsync(command.UserId, It.IsAny<CancellationToken>()))
             .ReturnsAsync((User?)null);
 
         // Act
@@ -57,10 +63,11 @@ public class UpdateUserHandlerTests
     public async Task Handle_ShouldReturnSuccess_WhenUserUpdatedSuccessfully()
     {
         // Arrange
-        var user = User.Create("old_name", "hash", UserRole.Operator).Data;
+        var user = User.Create("old_name", "hash", "Operator").Data;
         var command = new UpdateUserCommand(user.Id, "new_name", "Manager");
 
-        _userRepositoryMock.Setup(x => x.GetByIdAsync(command.UserId, It.IsAny<CancellationToken>()))
+        _userRepositoryMock
+            .Setup(x => x.GetByIdAsync(command.UserId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(user);
 
         // Act

@@ -42,7 +42,7 @@ public class ActivateUserHandlerTests
     public async Task Handle_ShouldActivateUser_WhenUserExists()
     {
         // Arrange
-        var user = User.Create("user", "hash", UserRole.Operator).Data;
+        var user = User.Create("user", "hash", "Operator").Data;
         user.Deactivate(); // Ensure it starts deactivated
         var command = new ActivateUserCommand(user.Id);
 
