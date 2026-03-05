@@ -60,6 +60,15 @@ namespace MassLib.Shared.Errors {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid credentials.
+        /// </summary>
+        public static string CREDENTIALS_INVALID {
+            get {
+                return ResourceManager.GetString("CREDENTIALS_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hash is invalid.
         /// </summary>
         public static string HASH_INVALID {
@@ -101,6 +110,42 @@ namespace MassLib.Shared.Errors {
         public static string PASSWORD_INVALID {
             get {
                 return ResourceManager.GetString("PASSWORD_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Both passwords are equals.
+        /// </summary>
+        public static string SAME_PASSWORD_ERROR {
+            get {
+                return ResourceManager.GetString("SAME_PASSWORD_ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User is inactive.
+        /// </summary>
+        public static string USER_INACTIVE {
+            get {
+                return ResourceManager.GetString("USER_INACTIVE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User not found.
+        /// </summary>
+        public static string USER_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("USER_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Username already registered.
+        /// </summary>
+        public static string USERNAME_ALREADY_REGISTERED {
+            get {
+                return ResourceManager.GetString("USERNAME_ALREADY_REGISTERED", resourceCulture);
             }
         }
     }

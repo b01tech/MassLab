@@ -3,7 +3,7 @@
 <root>
     <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
         <xsd:element name="root" msdata:IsDataSet="true">
-            
+
         </xsd:element>
     </xsd:schema>
     <resheader name="resmimetype">
@@ -32,5 +32,20 @@
     </data>
     <data name="HASH_INVALID" xml:space="preserve">
         <value>Hash is invalid</value>
+    </data>
+    <data name="USERNAME_ALREADY_REGISTERED" xml:space="preserve">
+        <value>Username already registered</value>
+    </data>
+    <data name="USER_NOT_FOUND" xml:space="preserve">
+        <value>User not found</value>
+    </data>
+    <data name="USER_INACTIVE" xml:space="preserve">
+        <value>User is inactive</value>
+    </data>
+    <data name="CREDENTIALS_INVALID" xml:space="preserve">
+        <value>Invalid credentials</value>
+    </data>
+    <data name="SAME_PASSWORD_ERROR" xml:space="preserve">
+        <value>Both passwords are equals</value>
     </data>
 </root>
