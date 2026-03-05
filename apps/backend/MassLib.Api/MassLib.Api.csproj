@@ -16,4 +16,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\pkgs\Identity\src\MassLib.Identity.Infrastructure\MassLib.Identity.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\pkgs\Shared\MassLib.Shared\MassLib.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
