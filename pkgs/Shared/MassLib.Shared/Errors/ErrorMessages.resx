@@ -45,6 +45,9 @@
     <data name="CREDENTIALS_INVALID" xml:space="preserve">
         <value>Invalid credentials</value>
     </data>
+    <data name="ID_MISMATCH" xml:space="preserve">
+        <value>Id mismatch</value>
+    </data>
     <data name="SAME_PASSWORD_ERROR" xml:space="preserve">
         <value>Both passwords are equals</value>
     </data>

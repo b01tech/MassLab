@@ -7,10 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MassLib.Shared.Errors {
+namespace MassLib.Shared.Errors
+{
     using System;
-    
-    
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -21,130 +22,169 @@ namespace MassLib.Shared.Errors {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class ErrorMessages {
-        
+    public class ErrorMessages
+    {
+
         private static global::System.Resources.ResourceManager resourceMan;
-        
+
         private static global::System.Globalization.CultureInfo resourceCulture;
-        
+
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ErrorMessages() {
+        internal ErrorMessages()
+        {
         }
-        
+
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
-            get {
-                if (object.ReferenceEquals(resourceMan, null)) {
+        public static global::System.Resources.ResourceManager ResourceManager
+        {
+            get
+            {
+                if (object.ReferenceEquals(resourceMan, null))
+                {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MassLib.Shared.Errors.ErrorMessages", typeof(ErrorMessages).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-        
+
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
-            get {
+        public static global::System.Globalization.CultureInfo Culture
+        {
+            get
+            {
                 return resourceCulture;
             }
-            set {
+            set
+            {
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Invalid credentials.
         /// </summary>
-        public static string CREDENTIALS_INVALID {
-            get {
+        public static string CREDENTIALS_INVALID
+        {
+            get
+            {
                 return ResourceManager.GetString("CREDENTIALS_INVALID", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Id mismatch.
+        /// </summary>
+        public static string ID_MISMATCH
+        {
+            get
+            {
+                return ResourceManager.GetString("ID_MISMATCH", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Hash is invalid.
         /// </summary>
-        public static string HASH_INVALID {
-            get {
+        public static string HASH_INVALID
+        {
+            get
+            {
                 return ResourceManager.GetString("HASH_INVALID", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Name is invalid.
         /// </summary>
-        public static string NAME_INVALID {
-            get {
+        public static string NAME_INVALID
+        {
+            get
+            {
                 return ResourceManager.GetString("NAME_INVALID", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Name too long.
         /// </summary>
-        public static string NAME_TOO_LONG {
-            get {
+        public static string NAME_TOO_LONG
+        {
+            get
+            {
                 return ResourceManager.GetString("NAME_TOO_LONG", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Name too short.
         /// </summary>
-        public static string NAME_TOO_SHORT {
-            get {
+        public static string NAME_TOO_SHORT
+        {
+            get
+            {
                 return ResourceManager.GetString("NAME_TOO_SHORT", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Password must constain.
         /// </summary>
-        public static string PASSWORD_INVALID {
-            get {
+        public static string PASSWORD_INVALID
+        {
+            get
+            {
                 return ResourceManager.GetString("PASSWORD_INVALID", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Both passwords are equals.
         /// </summary>
-        public static string SAME_PASSWORD_ERROR {
-            get {
+        public static string SAME_PASSWORD_ERROR
+        {
+            get
+            {
                 return ResourceManager.GetString("SAME_PASSWORD_ERROR", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to User is inactive.
         /// </summary>
-        public static string USER_INACTIVE {
-            get {
+        public static string USER_INACTIVE
+        {
+            get
+            {
                 return ResourceManager.GetString("USER_INACTIVE", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to User not found.
         /// </summary>
-        public static string USER_NOT_FOUND {
-            get {
+        public static string USER_NOT_FOUND
+        {
+            get
+            {
                 return ResourceManager.GetString("USER_NOT_FOUND", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Username already registered.
         /// </summary>
-        public static string USERNAME_ALREADY_REGISTERED {
-            get {
+        public static string USERNAME_ALREADY_REGISTERED
+        {
+            get
+            {
                 return ResourceManager.GetString("USERNAME_ALREADY_REGISTERED", resourceCulture);
             }
         }
