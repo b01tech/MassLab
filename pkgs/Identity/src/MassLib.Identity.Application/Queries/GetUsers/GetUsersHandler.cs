@@ -15,6 +15,6 @@ public class GetUsersHandler(IUserRepository repository)
         var users = await repository.GetAllAsync(pagination.Page, pagination.PageSize, cancellationToken);
         var response = users.Select(user => new UserResponse(user.Id, user.UserName.Value, user.Role, user.Active));
 
-        return new PaginatedUserResponse(Data: response, Pagination: pagination);
+        return new PaginatedUserResponse(Pagination: pagination, Data: response);
     }
 }
