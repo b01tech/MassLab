@@ -1,4 +1,4 @@
-﻿namespace MassLib.Api.Persistence;
+﻿namespace MassLib.Shared.Persistence;
 
 public interface IUnitOfWork
 {
