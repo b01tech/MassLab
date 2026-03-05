@@ -2,6 +2,7 @@ using MassLib.Identity.Application.Commands.Login;
 using MassLib.Identity.Domain.Entities;
 using MassLib.Identity.Domain.Enums;
 using MassLib.Identity.Domain.Interfaces;
+using MassLib.Shared.Errors;
 using Moq;
 
 namespace MassLib.Identity.Application.Tests.Commands;
@@ -26,7 +27,7 @@ public class LoginHandlerTests
     {
         // Arrange
         var command = new LoginCommand("non_existent", "password");
-        
+
         _userRepositoryMock.Setup(x => x.GetByUserNameAsync(command.UserName, It.IsAny<CancellationToken>()))
             .ReturnsAsync((User?)null);
 
@@ -35,7 +36,7 @@ public class LoginHandlerTests
 
         // Assert
         Assert.True(result.IsFailure);
-        Assert.Contains("Invalid credentials.", result.Errors);
+        Assert.Contains(ErrorMessages.CREDENTIALS_INVALID, result.Errors);
     }
 
     [Fact]
@@ -44,10 +45,10 @@ public class LoginHandlerTests
         // Arrange
         var command = new LoginCommand("user", "wrong_password");
         var user = User.Create("user", "hash", UserRole.Operator).Data;
-        
+
         _userRepositoryMock.Setup(x => x.GetByUserNameAsync(command.UserName, It.IsAny<CancellationToken>()))
             .ReturnsAsync(user);
-            
+
         _encrypterMock.Setup(x => x.Verify(command.Password, user.HashPassword.Value))
             .Returns(false);
 
@@ -56,7 +57,7 @@ public class LoginHandlerTests
 
         // Assert
         Assert.True(result.IsFailure);
-        Assert.Contains("Invalid credentials.", result.Errors);
+        Assert.Contains(ErrorMessages.CREDENTIALS_INVALID, result.Errors);
     }
 
     [Fact]
@@ -66,10 +67,10 @@ public class LoginHandlerTests
         var command = new LoginCommand("inactive_user", "password");
         var user = User.Create("inactive_user", "hash", UserRole.Operator).Data;
         user.Deactivate();
-        
+
         _userRepositoryMock.Setup(x => x.GetByUserNameAsync(command.UserName, It.IsAny<CancellationToken>()))
             .ReturnsAsync(user);
-            
+
         _encrypterMock.Setup(x => x.Verify(command.Password, user.HashPassword.Value))
             .Returns(true);
 
@@ -78,7 +79,7 @@ public class LoginHandlerTests
 
         // Assert
         Assert.True(result.IsFailure);
-        Assert.Contains("User is inactive.", result.Errors);
+        Assert.Contains(ErrorMessages.USER_INACTIVE, result.Errors);
     }
 
     [Fact]
@@ -87,13 +88,13 @@ public class LoginHandlerTests
         // Arrange
         var command = new LoginCommand("valid_user", "password");
         var user = User.Create("valid_user", "hash", UserRole.Operator).Data;
-        
+
         _userRepositoryMock.Setup(x => x.GetByUserNameAsync(command.UserName, It.IsAny<CancellationToken>()))
             .ReturnsAsync(user);
-            
+
         _encrypterMock.Setup(x => x.Verify(command.Password, user.HashPassword.Value))
             .Returns(true);
-            
+
         _tokenServiceMock.Setup(x => x.GenerateAccessToken(user)).Returns("access_token");
         _tokenServiceMock.Setup(x => x.GenerateRefreshToken()).Returns("refresh_token");
 

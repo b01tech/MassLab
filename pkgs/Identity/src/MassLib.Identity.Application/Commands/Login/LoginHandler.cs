@@ -1,5 +1,6 @@
 using MassLib.Identity.Application.DTOs;
 using MassLib.Identity.Domain.Interfaces;
+using MassLib.Shared.Errors;
 using MassLib.Shared.Results;
 
 namespace MassLib.Identity.Application.Commands.Login;
@@ -22,17 +23,17 @@ public class LoginHandler
         var user = await _userRepository.GetByUserNameAsync(request.UserName, cancellationToken);
         if (user is null)
         {
-            return Result<TokenResponse>.Failure("Invalid credentials.");
+            return Result<TokenResponse>.Failure(ErrorMessages.CREDENTIALS_INVALID);
         }
 
         if (!_encrypter.Verify(request.Password, user.HashPassword.Value))
         {
-            return Result<TokenResponse>.Failure("Invalid credentials.");
+            return Result<TokenResponse>.Failure(ErrorMessages.CREDENTIALS_INVALID);
         }
 
         if (!user.Active)
         {
-            return Result<TokenResponse>.Failure("User is inactive.");
+            return Result<TokenResponse>.Failure(ErrorMessages.USER_INACTIVE);
         }
 
         var accessToken = _tokenService.GenerateAccessToken(user);
