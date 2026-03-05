@@ -18,4 +18,8 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\MassLib.Identity.Domain\MassLib.Identity.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
