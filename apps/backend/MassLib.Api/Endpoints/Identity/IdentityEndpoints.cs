@@ -1,4 +1,5 @@
 using MassLib.Api.Endpoints.Identity.UseCases;
+using MassLib.Identity.Application.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MassLib.Api.Endpoints.Identity;
@@ -10,13 +11,17 @@ public static class IdentityEndpoints
         var group = app.MapGroup("api/v1")
             .WithTags("Identity");
 
-        group.MapPost("/auth/login", LoginUseCase.ExecuteAsync)
-            .Produces(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status401Unauthorized)
-            .WithSummary("Realize login and return token");
+        group.MapPost("/login", LoginUseCase.ExecuteAsync)
+            .Produces<TokenResponse>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status400BadRequest)
+            .WithSummary("Login");
+
+        group.MapGet("/users", GetUsersUseCase.ExecuteAsync)
+            .Produces<IEnumerable<UserResponse>>(StatusCodes.Status200OK)
+            .WithSummary("Get all users");
 
         group.MapPost("/users", CreateUserUseCase.ExecuteAsync)
-            .Produces(StatusCodes.Status200OK)
+            .Produces<UserResponse>(StatusCodes.Status201Created)
             .Produces(StatusCodes.Status400BadRequest)
             .WithSummary("Create a new user");
 

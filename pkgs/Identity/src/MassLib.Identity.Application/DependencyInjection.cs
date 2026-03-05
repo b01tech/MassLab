@@ -4,6 +4,7 @@ using MassLib.Identity.Application.Commands.CreateUser;
 using MassLib.Identity.Application.Commands.DeactivateUser;
 using MassLib.Identity.Application.Commands.Login;
 using MassLib.Identity.Application.Commands.UpdateUser;
+using MassLib.Identity.Application.Queries.GetUsers;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MassLib.Identity.Application;
@@ -18,6 +19,7 @@ public static class DependencyInjection
         services.AddScoped<ChangePasswordHandler>();
         services.AddScoped<DeactivateUserHandler>();
         services.AddScoped<ActivateUserHandler>();
+        services.AddScoped<GetUsersHandler>();
         return services;
     }
 }
