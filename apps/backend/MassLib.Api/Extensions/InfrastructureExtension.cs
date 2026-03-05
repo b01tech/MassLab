@@ -1,4 +1,6 @@
-﻿using MassLib.Api.Persistence;
+using MassLib.Api.Persistence;
+using MassLib.Identity.Application;
+using MassLib.Identity.Infrastructure;
 using MassLib.Identity.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,13 +10,17 @@ public static class InfrastructureExtension
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
         services.AddDbContext<AppDbContext>(options =>
-            options.UseNpgsql(connectionString));
+            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
-        services.AddScoped<IIdentityDbContext, AppDbContext>();
+        services.AddScoped<IIdentityDbContext>(sp => sp.GetRequiredService<AppDbContext>());
+        services.AddScoped<MassLib.Shared.Persistence.IUnitOfWork>(sp => sp.GetRequiredService<AppDbContext>());
+
+        services.AddIdentityInfrastructure(configuration);
+        services.AddIdentityApplication();
 
         return services;
     }
 
 }
+
