@@ -1,0 +1,174 @@
+<div class="p-6">
+  <!-- Header / Actions -->
+  <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
+    <!-- Search -->
+    <div class="relative w-full sm:w-96">
+      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+        <span class="material-symbols-outlined text-gray-400">search</span>
+      </div>
+      <input
+        type="text"
+        class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+        placeholder="Buscar usuários por nome..."
+        [ngModel]="searchTerm()"
+        (ngModelChange)="onSearch($event)"
+      />
+    </div>
+
+    <!-- Add Button -->
+    <button
+      (click)="openCreateModal()"
+      class="cursor-pointer inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+    >
+      <span class="material-symbols-outlined mr-2 -ml-1 text-[20px]">add</span>
+      Novo Usuário
+    </button>
+  </div>
+
+  <!-- Table -->
+  <div class="bg-white shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th
+            scope="col"
+            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+          >
+            Usuário
+          </th>
+          <th
+            scope="col"
+            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+          >
+            Cargo
+          </th>
+          <th
+            scope="col"
+            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+          >
+            Ativo
+          </th>
+          <th
+            scope="col"
+            class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+          >
+            Ações
+          </th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        @for (user of users(); track user.id) {
+          <tr>
+            <!-- User Column -->
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="flex items-center">
+                <div class="shrink-0 h-10 w-10">
+                  <!-- Placeholder Avatar -->
+                  <span
+                    class="inline-block h-10 w-10 rounded-full overflow-hidden bg-gray-100 items-center justify-center"
+                  >
+                    <span class="material-symbols-outlined text-gray-300 text-3xl"
+                      >account_circle</span
+                    >
+                  </span>
+                </div>
+                <div class="ml-4">
+                  <div class="text-sm font-medium text-gray-900">{{ user.userName }}</div>
+                </div>
+              </div>
+            </td>
+
+            <!-- Role Column -->
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span
+                [ngClass]="getRoleBadgeClass(user.role)"
+                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full uppercase"
+              >
+                {{ getRoleLabel(user.role) }}
+              </span>
+            </td>
+
+            <!-- Active Toggle Column -->
+            <td class="px-6 py-4 whitespace-nowrap">
+              <button
+                (click)="toggleStatus(user)"
+                [ngClass]="user.active ? 'bg-blue-600' : 'bg-gray-200'"
+                class="relative inline-flex shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                role="switch"
+                [attr.aria-checked]="user.active"
+              >
+                <span class="sr-only">Use setting</span>
+                <span
+                  [ngClass]="user.active ? 'translate-x-5' : 'translate-x-0'"
+                  class="pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200"
+                ></span>
+              </button>
+            </td>
+
+            <!-- Actions Column -->
+            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+              <button
+                (click)="openEditModal(user)"
+                class="text-blue-600 hover:text-blue-900 cursor-pointer"
+              >
+                Editar
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <div
+      class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6"
+    >
+      <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+        <div>
+          <p class="text-sm text-gray-700">
+            Mostrando
+            <span class="font-medium">{{ (currentPage() - 1) * pageSize() + 1 }}</span>
+            a
+            <span class="font-medium">{{
+              Math.min(currentPage() * pageSize(), totalItems())
+            }}</span>
+            de
+            <span class="font-medium">{{ totalItems() }}</span>
+            usuários
+          </p>
+        </div>
+        <div>
+          <nav
+            class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
+            aria-label="Pagination"
+          >
+            <button
+              (click)="prevPage()"
+              [disabled]="currentPage() === 1"
+              class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            >
+              <span class="sr-only">Anterior</span>
+              <span class="material-symbols-outlined text-[20px]">chevron_left</span>
+            </button>
+            <button
+              (click)="nextPage()"
+              [disabled]="currentPage() * pageSize() >= totalItems()"
+              class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            >
+              <span class="sr-only">Próximo</span>
+              <span class="material-symbols-outlined text-[20px]">chevron_right</span>
+            </button>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <app-user-form
+    [isOpen]="isModalOpen()"
+    [user]="selectedUser()"
+    (close)="closeModal()"
+    (save)="saveUser($event)"
+  ></app-user-form>
+</div>
