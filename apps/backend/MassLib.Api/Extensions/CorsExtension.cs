@@ -8,9 +8,10 @@ public static class CorsExtension
         {
             options.AddDefaultPolicy(policy =>
             {
-                policy.AllowAnyOrigin()
+                policy.SetIsOriginAllowed(origin => true) // Permitir qualquer origem para desenvolvimento
                       .AllowAnyHeader()
-                      .AllowAnyMethod();
+                      .AllowAnyMethod()
+                      .AllowCredentials();
             });
         });
 
