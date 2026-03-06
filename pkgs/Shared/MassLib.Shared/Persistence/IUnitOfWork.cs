@@ -1,6 +1,6 @@
-﻿namespace MassLib.Shared.Persistence;
+namespace MassLib.Shared.Persistence;
 
 public interface IUnitOfWork
 {
-    Task CommitAsync();
+    Task CommitAsync(CancellationToken cancellationToken = default);
 }
