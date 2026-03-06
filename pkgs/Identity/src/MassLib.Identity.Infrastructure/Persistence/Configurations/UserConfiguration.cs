@@ -22,7 +22,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 .HasColumnName("UserName")
                 .HasMaxLength(255)
                 .IsRequired();
-            
+
             name.HasIndex(n => n.Value).IsUnique();
         });
 
@@ -40,10 +40,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.Property(u => u.Active)
             .IsRequired();
-            
+
         builder.Property(u => u.CreatedAt)
             .IsRequired();
-            
+
         builder.Property(u => u.UpdatedAt);
     }
 }

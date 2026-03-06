@@ -1,4 +1,4 @@
-﻿using MassLib.Identity.Domain.Entities;
+using MassLib.Identity.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace MassLib.Identity.Infrastructure.Persistence;
