@@ -1,2 +1,11 @@
-<h1>MassLab Web</h1>
-<p>Sistema de gestão de laboratórios</p>
+<div
+  class="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-900 transition-colors duration-300"
+>
+  <app-header />
+
+  <main class="flex-1 flex items-center justify-center p-4">
+    <router-outlet />
+  </main>
+
+  <app-footer />
+</div>
