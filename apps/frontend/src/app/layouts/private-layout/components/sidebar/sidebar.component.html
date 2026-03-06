@@ -1,0 +1,41 @@
+<aside
+  class="w-64 bg-bg-surface border-r border-border-base flex flex-col h-full transition-colors duration-300"
+>
+  <!-- Logo -->
+  <div class="h-16 flex items-center px-6 border-b border-border-base">
+    <div class="flex items-center gap-2">
+      <span class="material-symbols-outlined text-text-inverted bg-primary p-1.5 rounded-lg text-xl">
+        balance
+      </span>
+      <span class="text-lg font-bold text-text-base">MassLab</span>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+    @for (item of navItems; track item.label) {
+      <a
+        [routerLink]="item.route"
+        routerLinkActive="bg-primary/10 text-primary"
+        [routerLinkActiveOptions]="{ exact: item.exact }"
+        class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-muted hover:bg-bg-input hover:text-text-base transition-colors group"
+        #rla="routerLinkActive"
+      >
+        <span
+          class="material-symbols-outlined text-[20px] group-hover:text-text-base transition-colors"
+          [class.text-primary]="rla.isActive"
+        >
+          {{ item.icon }}
+        </span>
+        <span class="text-sm font-medium">{{ item.label }}</span>
+      </a>
+    }
+  </nav>
+
+  <!-- Footer/Version -->
+  <div class="p-4 border-t border-border-base">
+    <div class="text-xs text-text-muted text-center">
+      © 2024 MassLab. <br />Todos os direitos reservados.
+    </div>
+  </div>
+</aside>
