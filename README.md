@@ -115,7 +115,7 @@ MassLab/
 4. **Order (Ordem de Serviço)**
    Controla o fluxo de trabalho desde a entrada do equipamento até a liberação do certificado.
    • Criação de OS vinculando cliente e equipamento
-   • Fluxo de status: ABERTA → EM_ENSAIO → AGUARDANDO_APROVAÇÃO → APROVADA | REPROVADA
+   • Fluxo de status: ABERTA → AGUARDANDO_EXECUÇÃO → AGUARDANDO_APROVAÇÃO → APROVADA | REPROVADA
    • Apenas Gerentes aprovam ou reprovam OS
    • OS aprovada libera a emissão do certificado final
    • OS reprovada exige registro de justificativa
