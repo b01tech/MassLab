@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { LoginCardHeaderComponent } from './login-card-header.component';
+import { LoginCardHeaderComponent } from './header/login-card-header.component';
 
 @Component({
   selector: 'app-login',
