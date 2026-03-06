@@ -1,0 +1,15 @@
+<div class="bg-bg-surface rounded-2xl p-6 shadow-sm border border-border-base h-full flex flex-col justify-between transition-colors duration-300">
+  <div class="flex justify-between items-start mb-4">
+    <!-- Icon Wrapper -->
+    <div [ngClass]="getIconClass()" class="p-3 rounded-xl">
+      <span class="material-symbols-outlined text-xl">{{ icon() }}</span>
+    </div>
+    <!-- Label -->
+    <span [ngClass]="getLabelClass()" class="text-xs font-bold uppercase tracking-wider">{{ label() }}</span>
+  </div>
+  
+  <div>
+    <div class="text-3xl font-bold text-text-base mb-1">{{ count() }}</div>
+    <div class="text-sm text-text-muted">{{ title() }}</div>
+  </div>
+</div>

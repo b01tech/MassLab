@@ -1,0 +1,114 @@
+<div class="space-y-8">
+  <!-- Section 1: Ordens de Serviço -->
+  <section>
+    <div class="flex justify-between items-center mb-6">
+      <div>
+        <h2 class="text-2xl font-bold text-text-base">Ordens de Serviço</h2>
+        <p class="text-text-muted mt-1">Resumo geral das operações em andamento</p>
+      </div>
+      <button class="flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary-hover text-text-inverted rounded-lg font-medium transition-colors">
+        <span class="material-symbols-outlined text-sm">add</span>
+        Nova Ordem
+      </button>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+      <app-stats-card
+        title="Abertas"
+        count="12"
+        label="OS"
+        icon="folder_open"
+        variant="blue"
+      />
+      <app-stats-card
+        title="Aguardando execução"
+        count="08"
+        label="OS"
+        icon="assignment"
+        variant="yellow"
+      />
+      <app-stats-card
+        title="Aguardando aprovação"
+        count="05"
+        label="OS"
+        icon="checklist"
+        variant="purple"
+      />
+      <app-stats-card
+        title="Reprovadas"
+        count="02"
+        label="OS"
+        icon="cancel"
+        variant="red"
+      />
+      <app-stats-card
+        title="Aprovadas"
+        count="45"
+        label="OS"
+        icon="check_circle"
+        variant="green"
+      />
+    </div>
+  </section>
+
+  <!-- Section 2: Controle de Padrões -->
+  <section>
+    <div class="flex justify-between items-center mb-6">
+      <div>
+        <h2 class="text-2xl font-bold text-text-base">Controle de Padrões</h2>
+        <p class="text-text-muted mt-1">Status atual dos equipamentos padrão</p>
+      </div>
+      <button class="px-4 py-2 bg-bg-surface hover:bg-bg-input border border-border-base rounded-lg text-text-base font-medium transition-colors">
+        Exportar PDF
+      </button>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+      <app-stats-card
+        title="Vigentes"
+        count="124"
+        label="STATUS"
+        icon="verified"
+        variant="green"
+      />
+      <app-stats-card
+        title="Calibrações próximas"
+        count="15"
+        label="STATUS"
+        icon="notifications_active"
+        variant="blue"
+      />
+      <app-stats-card
+        title="Em calibração"
+        count="04"
+        label="STATUS"
+        icon="hourglass_top"
+        variant="orange"
+      />
+      <app-stats-card
+        title="Calibrações vencidas"
+        count="03"
+        label="ALERTA"
+        icon="warning"
+        variant="red"
+      />
+      <app-stats-card
+        title="Fora de uso"
+        count="07"
+        label="STATUS"
+        icon="block"
+        variant="gray"
+      />
+    </div>
+  </section>
+
+  <!-- Section 3: Activities & Goal -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="lg:col-span-2">
+      <app-recent-activities />
+    </div>
+    <div>
+      <app-monthly-goal />
+    </div>
+  </div>
+</div>

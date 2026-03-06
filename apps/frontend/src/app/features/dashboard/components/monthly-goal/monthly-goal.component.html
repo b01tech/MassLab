@@ -1,0 +1,41 @@
+<div class="bg-bg-surface rounded-2xl p-6 shadow-sm border border-border-base h-full flex flex-col items-center justify-center text-center transition-colors duration-300">
+  <!-- Circular Progress (Simple CSS implementation) -->
+  <div class="relative h-32 w-32 mb-6">
+    <svg class="h-full w-full transform -rotate-90" viewBox="0 0 100 100">
+      <!-- Background Circle -->
+      <circle
+        class="text-bg-input stroke-current"
+        stroke-width="8"
+        fill="transparent"
+        r="40"
+        cx="50"
+        cy="50"
+      />
+      <!-- Progress Circle -->
+      <circle
+        class="text-primary stroke-current transition-all duration-1000 ease-out"
+        stroke-width="8"
+        stroke-linecap="round"
+        fill="transparent"
+        r="40"
+        cx="50"
+        cy="50"
+        stroke-dasharray="251.2"
+        stroke-dashoffset="55.26" 
+      />
+      <!-- 251.2 is circumference (2*PI*40). 78% progress means offset = 251.2 * (1 - 0.78) = 55.26 -->
+    </svg>
+    <div class="absolute inset-0 flex items-center justify-center">
+      <span class="text-2xl font-bold text-text-base">78%</span>
+    </div>
+  </div>
+
+  <h3 class="text-lg font-bold text-text-base mb-2">Meta Mensal</h3>
+  <p class="text-sm text-text-muted mb-6 px-4">
+    Você atingiu 78% da meta de calibrações prevista para este mês.
+  </p>
+
+  <button class="text-primary font-medium text-sm hover:underline">
+    Ver detalhes da meta
+  </button>
+</div>
