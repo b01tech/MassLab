@@ -68,7 +68,8 @@ export class UserListComponent implements OnInit {
 
   saveUser(userData: any) {
     if (this.selectedUser()) {
-      this.userService.updateUser(this.selectedUser()!.id, userData).subscribe({
+      const payload = { ...userData, userId: this.selectedUser()!.id };
+      this.userService.updateUser(this.selectedUser()!.id, payload).subscribe({
         next: () => {
           this.loadUsers();
           this.closeModal();
