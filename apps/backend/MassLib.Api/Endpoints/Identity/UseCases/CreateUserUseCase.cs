@@ -10,7 +10,7 @@ public static class CreateUserUseCase
     {
         var result = await handler.Handle(command, ct);
         return result.IsSuccess
-            ? Results.Ok(result.Data)
+            ? Results.Created($"/users/{result.Data.Id}", result.Data)
             : Results.BadRequest(result.Errors);
     }
 }
