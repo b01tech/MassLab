@@ -2,6 +2,7 @@ import { UserRole } from './user-role';
 
 export interface User {
   id: string;
-  username: string;
+  userName: string;
   role: UserRole;
+  active: boolean;
 }
