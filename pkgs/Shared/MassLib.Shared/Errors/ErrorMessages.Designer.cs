@@ -208,5 +208,16 @@ namespace MassLib.Shared.Errors
                 return ResourceManager.GetString("INTERNAL_SERVER_ERROR", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh token is invalid or expired.
+        /// </summary>
+        public static string REFRESH_TOKEN_INVALID
+        {
+            get
+            {
+                return ResourceManager.GetString("REFRESH_TOKEN_INVALID", resourceCulture);
+            }
+        }
     }
 }
