@@ -9,13 +9,12 @@ public static class LoginUseCase
         CancellationToken ct)
     {
         var result = await handler.Handle(command, ct);
-        
+
         if (result.IsFailure)
             return Results.BadRequest(result.Errors);
 
         var tokenResponse = result.Data;
 
-        // Apenas Refresh Token no Cookie
         var refreshTokenExpiry = double.Parse(configuration["Jwt:RefreshExpirationInDays"] ?? "7");
 
         context.Response.Cookies.Append("RefreshToken", tokenResponse.RefreshToken, new CookieOptions
@@ -27,10 +26,9 @@ public static class LoginUseCase
         });
 
         // Retorna Access Token no corpo para o Frontend armazenar em memória
-        return Results.Ok(new 
-        { 
+        return Results.Ok(new
+        {
             accessToken = tokenResponse.AccessToken,
-            message = "Login successful" 
         });
     }
 }

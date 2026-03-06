@@ -7,6 +7,9 @@ public static class LogoutUseCase
     public static IResult Execute(HttpResponse response)
     {
         response.Cookies.Delete("RefreshToken");
-        return Results.Ok();
+        return Results.Ok(new
+        {
+            message = "Logout successful"
+        });
     }
 }

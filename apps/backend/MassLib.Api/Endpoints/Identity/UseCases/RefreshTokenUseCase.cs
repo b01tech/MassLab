@@ -17,7 +17,6 @@ public static class RefreshTokenUseCase
 
         if (result.IsFailure)
         {
-            // Limpar cookies inválidos
             context.Response.Cookies.Delete("AccessToken");
             context.Response.Cookies.Delete("RefreshToken");
             return Results.Unauthorized();
@@ -25,7 +24,6 @@ public static class RefreshTokenUseCase
 
         var tokenResponse = result.Data;
 
-        // Apenas Refresh Token no Cookie
         var refreshTokenExpiry = double.Parse(configuration["Jwt:RefreshExpirationInDays"] ?? "7");
 
         context.Response.Cookies.Append("RefreshToken", tokenResponse.RefreshToken, new CookieOptions
@@ -36,11 +34,9 @@ public static class RefreshTokenUseCase
             Expires = DateTime.UtcNow.AddDays(refreshTokenExpiry)
         });
 
-        // Retorna Access Token no corpo para o Frontend armazenar em memória
-        return Results.Ok(new 
-        { 
+        return Results.Ok(new
+        {
             accessToken = tokenResponse.AccessToken,
-            message = "Token refreshed" 
         });
     }
 }
