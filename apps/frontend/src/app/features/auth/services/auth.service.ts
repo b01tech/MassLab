@@ -1,66 +1,96 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { catchError, map, Observable, of, tap } from 'rxjs';
 import { environment } from '../../../../environmets/environment';
 import { TokenPayload } from '../models/token-payload';
 import { TokenResponse } from '../models/token-response';
 import { User } from '../models/user.model';
 
-const TOKEN_KEY = 'access_token';
-
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  private readonly _accessToken = signal<string | null>(null);
+
   loggedUser = signal<User | null>(null);
+
   private readonly _httpClient = inject(HttpClient);
 
-  constructor() {
-    this.restoreSession();
+  get accessToken() {
+    return this._accessToken.asReadonly();
   }
 
   login(username: string, password: string): Observable<TokenResponse> {
     return this._httpClient
-      .post<TokenResponse>(`${environment.apiBaseUrl}/login`, {
-        username,
-        password,
-      })
+      .post<TokenResponse>(
+        `${environment.apiBaseUrl}/login`,
+        {
+          username,
+          password,
+        },
+        { withCredentials: true },
+      ) // send cookies
       .pipe(
         tap((response) => {
-          localStorage.setItem(TOKEN_KEY, response.accessToken);
-          this.setLoggedInUser(response.accessToken);
+          this.setSession(response.accessToken);
+        }),
+      );
+  }
+
+  refreshToken(): Observable<TokenResponse> {
+    return this._httpClient
+      .post<TokenResponse>(`${environment.apiBaseUrl}/refresh-token`, {}, { withCredentials: true })
+      .pipe(
+        tap((response) => {
+          this.setSession(response.accessToken);
+        }),
+        catchError((err) => {
+          this.logoutLocal();
+          return of();
         }),
       );
   }
 
   logout() {
-    localStorage.removeItem(TOKEN_KEY);
+    this._httpClient
+      .post(`${environment.apiBaseUrl}/logout`, {}, { withCredentials: true })
+      .subscribe({
+        complete: () => this.logoutLocal(),
+        error: () => this.logoutLocal(),
+      });
+  }
+
+  private logoutLocal() {
+    this._accessToken.set(null);
     this.loggedUser.set(null);
   }
 
-  decodeToken(token: string): TokenPayload {
-    const payload = token.split('.')[1];
-    const decoded = JSON.parse(atob(payload));
-    return decoded;
-  }
-  private getToken(): string | null {
-    return localStorage.getItem(TOKEN_KEY);
+  private setSession(token: string) {
+    this._accessToken.set(token);
+    this.setLoggedInUser(token);
   }
 
-  private restoreSession(): void {
-    const token = this.getToken();
-    if (token && this.isAuthenticated()) {
-      this.setLoggedInUser(token);
-    } else {
-      this.logout();
+  decodeToken(token: string): TokenPayload {
+    try {
+      const payload = token.split('.')[1];
+      const decoded = JSON.parse(atob(payload));
+      return decoded;
+    } catch (e) {
+      console.error('Erro ao decodificar token', e);
+      throw e;
     }
   }
 
   isAuthenticated(): boolean {
-    const token = this.getToken();
+    const token = this._accessToken();
     if (!token) return false;
-    const payload = this.decodeToken(token);
-    return payload.exp * 1000 > Date.now();
+
+    try {
+      const payload = this.decodeToken(token);
+      return payload.exp * 1000 > Date.now();
+    } catch {
+      return false;
+    }
   }
 
   private setLoggedInUser(token: string) {
