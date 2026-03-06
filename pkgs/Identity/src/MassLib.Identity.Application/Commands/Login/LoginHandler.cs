@@ -3,30 +3,22 @@ using MassLib.Identity.Domain.Interfaces;
 using MassLib.Shared.Errors;
 using MassLib.Shared.Results;
 
+using MassLib.Shared.Persistence;
+
 namespace MassLib.Identity.Application.Commands.Login;
 
-public class LoginHandler
+public class LoginHandler(IUserRepository userRepository, IEncrypter encrypter, ITokenService tokenService)
 {
-    private readonly IUserRepository _userRepository;
-    private readonly IEncrypter _encrypter;
-    private readonly ITokenService _tokenService;
-
-    public LoginHandler(IUserRepository userRepository, IEncrypter encrypter, ITokenService tokenService)
-    {
-        _userRepository = userRepository;
-        _encrypter = encrypter;
-        _tokenService = tokenService;
-    }
 
     public async Task<Result<TokenResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.GetByUserNameAsync(request.UserName, cancellationToken);
+        var user = await userRepository.GetByUserNameAsync(request.UserName, cancellationToken);
         if (user is null)
         {
             return Result<TokenResponse>.Failure(ErrorMessages.CREDENTIALS_INVALID);
         }
 
-        if (!_encrypter.Verify(request.Password, user.HashPassword.Value))
+        if (!encrypter.Verify(request.Password, user.HashPassword.Value))
         {
             return Result<TokenResponse>.Failure(ErrorMessages.CREDENTIALS_INVALID);
         }
@@ -36,8 +28,8 @@ public class LoginHandler
             return Result<TokenResponse>.Failure(ErrorMessages.USER_INACTIVE);
         }
 
-        var accessToken = _tokenService.GenerateAccessToken(user);
-        var refreshToken = _tokenService.GenerateRefreshToken();
+        var accessToken = tokenService.GenerateAccessToken(user);
+        var refreshToken = tokenService.GenerateRefreshToken(user);
 
         return new TokenResponse(accessToken, refreshToken);
     }
