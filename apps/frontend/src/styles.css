@@ -1,1 +1,66 @@
 @import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-primary: var(--color-primary);
+  --color-primary-hover: var(--color-primary-hover);
+
+  --color-bg-base: var(--color-bg-base);
+  --color-bg-surface: var(--color-bg-surface);
+  --color-bg-input: var(--color-bg-input);
+
+  --color-text-base: var(--color-text-base);
+  --color-text-muted: var(--color-text-muted);
+  --color-text-inverted: var(--color-text-inverted);
+
+  --color-border-base: var(--color-border-base);
+}
+
+:root {
+  /* Blue-600 */
+  --color-primary: #2563eb;
+  /* Blue-700 */
+  --color-primary-hover: #1d4ed8;
+
+  /* White */
+  --color-bg-base: #ffffff;
+  /* Slate-50 */
+  --color-bg-surface: #f8fafc;
+  /* Slate-50 */
+  --color-bg-input: #f8fafc;
+
+  /* Slate-900 */
+  --color-text-base: #0f172a;
+  /* Slate-500 */
+  --color-text-muted: #64748b;
+  /* White */
+  --color-text-inverted: #ffffff;
+
+  /* Slate-200 */
+  --color-border-base: #e2e8f0;
+}
+
+.dark {
+  /* Blue-500 */
+  --color-primary: #3b82f6;
+  /* Blue-600 */
+  --color-primary-hover: #2563eb;
+
+  /* Slate-900 */
+  --color-bg-base: #0f172a;
+  /* Slate-800 */
+  --color-bg-surface: #1e293b;
+  /* Slate-800/50 */
+  --color-bg-input: #1e293b;
+
+  /* White */
+  --color-text-base: #ffffff;
+  /* Slate-400 */
+  --color-text-muted: #94a3b8;
+  /* White */
+  --color-text-inverted: #ffffff;
+
+  /* Slate-700 */
+  --color-border-base: #334155;
+}
