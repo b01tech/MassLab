@@ -198,5 +198,15 @@ namespace MassLib.Shared.Errors
                 return ResourceManager.GetString("ROLE_INVALID", resourceCulture);
             }
         }
+        /// <summary>
+        ///   Looks up a localized string similar to An internal server error has occurred.
+        /// </summary>
+        public static string INTERNAL_SERVER_ERROR
+        {
+            get
+            {
+                return ResourceManager.GetString("INTERNAL_SERVER_ERROR", resourceCulture);
+            }
+        }
     }
 }
