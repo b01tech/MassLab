@@ -12,9 +12,18 @@ public static class IdentityEndpoints
             .WithTags("Identity");
 
         group.MapPost("/login", LoginUseCase.ExecuteAsync)
-            .Produces<TokenResponse>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status400BadRequest)
             .WithSummary("Login");
+
+        group.MapPost("/refresh-token", RefreshTokenUseCase.ExecuteAsync)
+            .Produces(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status401Unauthorized)
+            .WithSummary("Refresh Access Token");
+
+        group.MapPost("/logout", LogoutUseCase.Execute)
+            .Produces(StatusCodes.Status200OK)
+            .WithSummary("Logout");
 
         group.MapGet("/users", GetUsersUseCase.ExecuteAsync)
             .Produces<IEnumerable<UserResponse>>(StatusCodes.Status200OK)
