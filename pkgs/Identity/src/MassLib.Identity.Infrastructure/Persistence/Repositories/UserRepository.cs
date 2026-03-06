@@ -16,18 +16,31 @@ public class UserRepository(IIdentityDbContext context) : IUserRepository
         return await context.Users.FirstOrDefaultAsync(u => u.UserName.Value == userName, cancellationToken);
     }
 
-    public async Task<IEnumerable<User>> GetAllAsync(int page, int pageSize, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<User>> GetAllAsync(int page, int pageSize, string? searchTerm = null, CancellationToken cancellationToken = default)
     {
-        return await context.Users
-            .AsNoTracking()
+        var query = context.Users.AsNoTracking();
+
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            query = query.Where(u => u.UserName.Value.Contains(searchTerm));
+        }
+
+        return await query
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<int> GetTotalCountAsync(CancellationToken cancellationToken = default)
+    public async Task<int> GetTotalCountAsync(string? searchTerm = null, CancellationToken cancellationToken = default)
     {
-        return await context.Users.CountAsync(cancellationToken);
+        var query = context.Users.AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            query = query.Where(u => u.UserName.Value.Contains(searchTerm));
+        }
+
+        return await query.CountAsync(cancellationToken);
     }
 
     public async Task AddAsync(User user, CancellationToken cancellationToken = default)
