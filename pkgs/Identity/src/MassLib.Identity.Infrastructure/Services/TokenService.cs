@@ -20,16 +20,17 @@ public class TokenService : ITokenService
     public string GenerateAccessToken(User user)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Secret"] ?? "super_secret_key_that_needs_to_be_long_enough");
+        var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Secret"] ?? string.Empty);
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new[]
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.UserName.Value),
-                new Claim(ClaimTypes.Role, user.Role.ToString())
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName.Value),
+                new Claim(ClaimTypes.Role, user.Role.ToString()),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             }),
-            Expires = DateTime.UtcNow.AddMinutes(double.Parse(_configuration["Jwt:ExpirationInMinutes"] ?? "60")),
+            Expires = DateTime.UtcNow.AddMinutes(double.Parse(_configuration["Jwt:ExpirationInMinutes"] ?? "15")),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
             Issuer = _configuration["Jwt:Issuer"],
             Audience = _configuration["Jwt:Audience"]
@@ -38,8 +39,55 @@ public class TokenService : ITokenService
         return tokenHandler.WriteToken(token);
     }
 
-    public string GenerateRefreshToken()
+    public string GenerateRefreshToken(User user)
     {
-        return Convert.ToBase64String(Guid.CreateVersion7().ToByteArray());
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Secret"] ?? string.Empty);
+        var tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Subject = new ClaimsIdentity(new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName.Value),
+                new Claim(ClaimTypes.Role, user.Role.ToString()),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim("token_type", "refresh_token")
+            }),
+            Expires = DateTime.UtcNow.AddDays(7),
+            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+            Issuer = _configuration["Jwt:Issuer"],
+            Audience = _configuration["Jwt:Audience"]
+        };
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+        return tokenHandler.WriteToken(token);
+    }
+
+    public ClaimsPrincipal? ValidateRefreshToken(string token)
+    {
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Secret"] ?? string.Empty);
+        try
+        {
+            var principal = tokenHandler.ValidateToken(token, new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuer = true,
+                ValidIssuer = _configuration["Jwt:Issuer"],
+                ValidateAudience = true,
+                ValidAudience = _configuration["Jwt:Audience"],
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.Zero
+            }, out SecurityToken validatedToken);
+
+            if (principal.FindFirst("token_type")?.Value != "refresh_token")
+                return null;
+
+            return principal;
+        }
+        catch
+        {
+            return null;
+        }
     }
 }
