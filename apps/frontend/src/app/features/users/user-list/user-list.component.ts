@@ -16,7 +16,7 @@ import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 export class UserListComponent implements OnInit {
   protected Math = Math;
   private userService = inject(UserService);
-  
+
   private searchSubject = new Subject<string>();
 
   users = this.userService.users;
@@ -31,12 +31,9 @@ export class UserListComponent implements OnInit {
 
   ngOnInit() {
     this.loadUsers();
-    
+
     // Debounce search
-    this.searchSubject.pipe(
-      debounceTime(300),
-      distinctUntilChanged()
-    ).subscribe(term => {
+    this.searchSubject.pipe(debounceTime(300), distinctUntilChanged()).subscribe((term) => {
       this.searchTerm.set(term);
       this.currentPage.set(1); // Reset to first page on search
       this.loadUsers();
@@ -99,22 +96,26 @@ export class UserListComponent implements OnInit {
   getRoleBadgeClass(role: UserRole): string {
     switch (role) {
       case UserRole.Admin:
-        return 'bg-purple-100 text-purple-800';
+        return 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300';
       case UserRole.Manager:
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300';
       case UserRole.Operator:
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300';
     }
   }
-  
+
   getRoleLabel(role: UserRole): string {
     switch (role) {
-      case UserRole.Admin: return 'Administrador';
-      case UserRole.Manager: return 'Gerente';
-      case UserRole.Operator: return 'Técnico';
-      default: return role;
+      case UserRole.Admin:
+        return 'Administrador';
+      case UserRole.Manager:
+        return 'Gerente';
+      case UserRole.Operator:
+        return 'Técnico';
+      default:
+        return role;
     }
   }
 
