@@ -97,8 +97,9 @@ export class AuthService {
     const payload = this.decodeToken(token);
     this.loggedUser.set({
       id: payload.nameid,
-      username: payload.unique_name,
+      userName: payload.unique_name,
       role: payload.role,
+      active: true, // User must be active to login
     });
   }
 }
