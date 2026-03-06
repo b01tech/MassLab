@@ -7,11 +7,9 @@ import { DOCUMENT } from '@angular/common';
 export class ThemeService {
   private document = inject(DOCUMENT);
 
-  // Signal para controlar o estado do tema
   isDarkMode = signal<boolean>(this.getInitialTheme());
 
   constructor() {
-    // Effect para aplicar as mudanças de tema automaticamente quando o signal mudar
     effect(() => {
       if (this.isDarkMode()) {
         this.document.documentElement.classList.add('dark');
@@ -28,7 +26,6 @@ export class ThemeService {
   }
 
   private getInitialTheme(): boolean {
-    // Verifica preferência salva ou do sistema
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
       return savedTheme === 'dark';
