@@ -27,10 +27,14 @@ public class GetUsersHandlerTests
             User.Create("user2", "hash2", "Admin").Data!
         };
 
-        _userRepositoryMock.Setup(x => x.GetAllAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<CancellationToken>()))
+        _userRepositoryMock
+            .Setup(x =>
+                x.GetAllAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string?>(), It.IsAny<CancellationToken>())
+            )
             .ReturnsAsync(users);
 
-        _userRepositoryMock.Setup(x => x.GetTotalCountAsync(It.IsAny<CancellationToken>()))
+        _userRepositoryMock
+            .Setup(x => x.GetTotalCountAsync(It.IsAny<string?>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(2);
 
         var query = new GetUsersQuery(1, 10);
@@ -52,10 +56,14 @@ public class GetUsersHandlerTests
     public async Task Handle_ShouldReturnEmptyList_WhenNoUsersExist()
     {
         // Arrange
-        _userRepositoryMock.Setup(x => x.GetAllAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<CancellationToken>()))
+        _userRepositoryMock
+            .Setup(x =>
+                x.GetAllAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string?>(), It.IsAny<CancellationToken>())
+            )
             .ReturnsAsync(new List<User>());
 
-        _userRepositoryMock.Setup(x => x.GetTotalCountAsync(It.IsAny<CancellationToken>()))
+        _userRepositoryMock
+            .Setup(x => x.GetTotalCountAsync(It.IsAny<string?>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(0);
 
         var query = new GetUsersQuery(1, 10);
@@ -74,10 +82,12 @@ public class GetUsersHandlerTests
     {
         // Arrange
         var users = new List<User>();
-        _userRepositoryMock.Setup(x => x.GetAllAsync(It.IsAny<int>(), 200, It.IsAny<CancellationToken>()))
+        _userRepositoryMock
+            .Setup(x => x.GetAllAsync(It.IsAny<int>(), 200, It.IsAny<string?>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(users);
 
-        _userRepositoryMock.Setup(x => x.GetTotalCountAsync(It.IsAny<CancellationToken>()))
+        _userRepositoryMock
+            .Setup(x => x.GetTotalCountAsync(It.IsAny<string?>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(0);
 
         var query = new GetUsersQuery(1, 1000); // PageSize > MaxPageSize
@@ -88,7 +98,10 @@ public class GetUsersHandlerTests
         // Assert
         Assert.True(result.IsSuccess);
         Assert.Equal(200, result.Data.Pagination.PageSize);
-        _userRepositoryMock.Verify(x => x.GetAllAsync(1, 200, It.IsAny<CancellationToken>()), Times.Once);
+        _userRepositoryMock.Verify(
+            x => x.GetAllAsync(1, 200, It.IsAny<string?>(), It.IsAny<CancellationToken>()),
+            Times.Once
+        );
     }
 
     [Fact]
@@ -96,10 +109,12 @@ public class GetUsersHandlerTests
     {
         // Arrange
         var users = new List<User>();
-        _userRepositoryMock.Setup(x => x.GetAllAsync(1, It.IsAny<int>(), It.IsAny<CancellationToken>()))
+        _userRepositoryMock
+            .Setup(x => x.GetAllAsync(1, It.IsAny<int>(), It.IsAny<string?>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(users);
 
-        _userRepositoryMock.Setup(x => x.GetTotalCountAsync(It.IsAny<CancellationToken>()))
+        _userRepositoryMock
+            .Setup(x => x.GetTotalCountAsync(It.IsAny<string?>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(0);
 
         var query = new GetUsersQuery(0, 10); // Page < 1
@@ -110,6 +125,9 @@ public class GetUsersHandlerTests
         // Assert
         Assert.True(result.IsSuccess);
         Assert.Equal(1, result.Data.Pagination.Page);
-        _userRepositoryMock.Verify(x => x.GetAllAsync(1, 10, It.IsAny<CancellationToken>()), Times.Once);
+        _userRepositoryMock.Verify(
+            x => x.GetAllAsync(1, 10, It.IsAny<string?>(), It.IsAny<CancellationToken>()),
+            Times.Once
+        );
     }
 }

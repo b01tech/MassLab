@@ -97,7 +97,7 @@ public class LoginHandlerTests
         _encrypterMock.Setup(x => x.Verify(command.Password, user.HashPassword.Value)).Returns(true);
 
         _tokenServiceMock.Setup(x => x.GenerateAccessToken(user)).Returns("access_token");
-        _tokenServiceMock.Setup(x => x.GenerateRefreshToken()).Returns("refresh_token");
+        _tokenServiceMock.Setup(x => x.GenerateRefreshToken(user)).Returns("refresh_token");
 
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);
