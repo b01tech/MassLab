@@ -28,6 +28,7 @@ export class UserListComponent implements OnInit {
 
   isModalOpen = signal(false);
   selectedUser = signal<User | null>(null);
+  errorMessage = signal<string | null>(null);
 
   ngOnInit() {
     this.loadUsers();
@@ -50,11 +51,13 @@ export class UserListComponent implements OnInit {
 
   openCreateModal() {
     this.selectedUser.set(null);
+    this.errorMessage.set(null);
     this.isModalOpen.set(true);
   }
 
   openEditModal(user: User) {
     this.selectedUser.set(user);
+    this.errorMessage.set(null);
     this.isModalOpen.set(true);
   }
 
@@ -64,6 +67,7 @@ export class UserListComponent implements OnInit {
   }
 
   saveUser(userData: any) {
+    this.errorMessage.set(null);
     if (this.selectedUser()) {
       const payload = { ...userData, userId: this.selectedUser()!.id };
       this.userService.updateUser(this.selectedUser()!.id, payload).subscribe({
@@ -71,7 +75,10 @@ export class UserListComponent implements OnInit {
           this.loadUsers();
           this.closeModal();
         },
-        error: (err) => console.error('Error updating user', err),
+        error: (err) => {
+          console.error('Error updating user', err);
+          this.handleError(err);
+        },
       });
     } else {
       // Create
@@ -80,8 +87,21 @@ export class UserListComponent implements OnInit {
           this.loadUsers();
           this.closeModal();
         },
-        error: (err) => console.error('Error creating user', err),
+        error: (err) => {
+          console.error('Error creating user', err);
+          this.handleError(err);
+        },
       });
+    }
+  }
+
+  private handleError(err: any) {
+    if (Array.isArray(err.error)) {
+      this.errorMessage.set(err.error.join(', '));
+    } else if (err.error?.message) {
+      this.errorMessage.set(err.error.message);
+    } else {
+      this.errorMessage.set('Ocorreu um erro inesperado.');
     }
   }
 

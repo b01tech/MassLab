@@ -13,12 +13,13 @@ import { UserRole } from '../../../auth/models/user-role';
 export class UserFormComponent {
   isOpen = input(false);
   user = input<User | null>(null);
+  errorMessage = input<string | null>(null);
 
   close = output<void>();
   save = output<any>();
 
   private fb = inject(FormBuilder);
-  
+
   protected isEditMode = false;
   protected roles = Object.values(UserRole);
 
@@ -30,20 +31,26 @@ export class UserFormComponent {
 
   constructor() {
     effect(() => {
+      const isOpenValue = this.isOpen();
       const userValue = this.user();
-      if (userValue) {
-        this.isEditMode = true;
-        this.userForm.patchValue({
-          userName: userValue.userName,
-          role: userValue.role,
-        });
-        this.userForm.get('password')?.clearValidators();
-      } else {
-        this.isEditMode = false;
-        this.userForm.reset({ role: UserRole.Operator });
-        this.userForm.get('password')?.setValidators([Validators.required, Validators.minLength(6)]);
+
+      if (isOpenValue) {
+        if (userValue) {
+          this.isEditMode = true;
+          this.userForm.patchValue({
+            userName: userValue.userName,
+            role: userValue.role,
+          });
+          this.userForm.get('password')?.clearValidators();
+        } else {
+          this.isEditMode = false;
+          this.userForm.reset({ role: UserRole.Operator });
+          this.userForm
+            .get('password')
+            ?.setValidators([Validators.required, Validators.minLength(6)]);
+        }
+        this.userForm.get('password')?.updateValueAndValidity();
       }
-      this.userForm.get('password')?.updateValueAndValidity();
     });
   }
 

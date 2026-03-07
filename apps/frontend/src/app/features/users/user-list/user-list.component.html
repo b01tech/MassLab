@@ -173,6 +173,7 @@
   <app-user-form
     [isOpen]="isModalOpen()"
     [user]="selectedUser()"
+    [errorMessage]="errorMessage()"
     (close)="closeModal()"
     (save)="saveUser($event)"
   ></app-user-form>
