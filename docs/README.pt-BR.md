@@ -162,14 +162,14 @@ _Observação_: as permissões são implementadas via ASP.NET Core Policies, nã
 ### Como executar
 
 1. Clone o repositório: `git clone `
-2. Navegue até o diretório do projeto: `cd MassLab/apps/backend/MassLib.Api`
+2. Navegue até o diretório do projeto: `cd MassLab/apps/backend/MassLab.Api`
 3. Restaure as dependências: `dotnet restore`
 4. Compile o projeto: `dotnet build`
 5. Execute o projeto: `dotnet run`
 
 ### Testes
 
-1. Navegue até o diretório do projeto de testes: `cd MassLib`
+1. Navegue até o diretório do projeto de testes: `cd MassLab`
 2. Execute os testes: `dotnet test`
 
 ---

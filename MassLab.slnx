@@ -1,21 +1,21 @@
 <Solution>
   <Folder Name="/apps/" />
   <Folder Name="/apps/backend/">
-    <Project Path="apps/backend/MassLib.Api/MassLib.Api.csproj" />
+    <Project Path="apps/backend/MassLab.Api/MassLab.Api.csproj" />
   </Folder>
   <Folder Name="/pkgs/" />
   <Folder Name="/pkgs/Identity/" />
   <Folder Name="/pkgs/Identity/src/">
-    <Project Path="pkgs/Identity/src/MassLib.Identity.Application/MassLib.Identity.Application.csproj" />
-    <Project Path="pkgs/Identity/src/MassLib.Identity.Domain/MassLib.Identity.Domain.csproj" />
-    <Project Path="pkgs/Identity/src/MassLib.Identity.Infrastructure/MassLib.Identity.Infrastructure.csproj" />
+    <Project Path="pkgs/Identity/src/MassLab.Identity.Application/MassLab.Identity.Application.csproj" />
+    <Project Path="pkgs/Identity/src/MassLab.Identity.Domain/MassLab.Identity.Domain.csproj" />
+    <Project Path="pkgs/Identity/src/MassLab.Identity.Infrastructure/MassLab.Identity.Infrastructure.csproj" />
   </Folder>
   <Folder Name="/pkgs/Identity/test/">
-    <Project Path="pkgs/Identity/test/MassLib.Identity.Application.Tests/MassLib.Identity.Application.Tests.csproj" />
-    <Project Path="pkgs/Identity/test/MassLib.Identity.Domain.Tests/MassLib.Identity.Domain.Tests.csproj" />
+    <Project Path="pkgs/Identity/test/MassLab.Identity.Application.Tests/MassLab.Identity.Application.Tests.csproj" />
+    <Project Path="pkgs/Identity/test/MassLab.Identity.Domain.Tests/MassLab.Identity.Domain.Tests.csproj" />
   </Folder>
   <Folder Name="/pkgs/Shared/">
-    <Project Path="pkgs/Shared/MassLib.Shared.Tests/MassLib.Shared.Tests.csproj" />
-    <Project Path="pkgs/Shared/MassLib.Shared/MassLib.Shared.csproj" />
+    <Project Path="pkgs/Shared/MassLab.Shared.Tests/MassLab.Shared.Tests.csproj" />
+    <Project Path="pkgs/Shared/MassLab.Shared/MassLab.Shared.csproj" />
   </Folder>
 </Solution>
