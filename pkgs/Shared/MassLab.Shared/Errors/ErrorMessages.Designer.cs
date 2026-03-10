@@ -219,5 +219,70 @@ namespace MassLab.Shared.Errors
                 return ResourceManager.GetString("REFRESH_TOKEN_INVALID", resourceCulture);
             }
         }
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid CNPJ.
+        /// </summary>
+        public static string CNPJ_INVALID
+        {
+            get
+            {
+                return ResourceManager.GetString("CNPJ_INVALID", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid CPF.
+        /// </summary>
+        public static string CPF_INVALID
+        {
+            get
+            {
+                return ResourceManager.GetString("CPF_INVALID", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid Email.
+        /// </summary>
+        public static string EMAIL_INVALID
+        {
+            get
+            {
+                return ResourceManager.GetString("EMAIL_INVALID", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid Phone Number.
+        /// </summary>
+        public static string PHONE_INVALID
+        {
+            get
+            {
+                return ResourceManager.GetString("PHONE_INVALID", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid ZipCode.
+        /// </summary>
+        public static string ZIPCODE_INVALID
+        {
+            get
+            {
+                return ResourceManager.GetString("ZIPCODE_INVALID", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid State.
+        /// </summary>
+        public static string STATE_INVALID
+        {
+            get
+            {
+                return ResourceManager.GetString("STATE_INVALID", resourceCulture);
+            }
+        }
     }
 }

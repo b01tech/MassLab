@@ -19,6 +19,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\pkgs\Identity\src\MassLab.Identity.Infrastructure\MassLab.Identity.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\pkgs\Registry\src\MassLab.Registry.Application\MassLab.Registry.Application.csproj" />
+    <ProjectReference Include="..\..\..\pkgs\Registry\src\MassLab.Registry.Infrastructure\MassLab.Registry.Infrastructure.csproj" />
     <ProjectReference Include="..\..\..\pkgs\Shared\MassLab.Shared\MassLab.Shared.csproj" />
     <ProjectReference Include="..\..\..\pkgs\Identity\src\MassLab.Identity.Application\MassLab.Identity.Application.csproj" />
   </ItemGroup>
