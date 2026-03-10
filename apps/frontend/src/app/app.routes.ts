@@ -33,7 +33,7 @@ export const routes: Routes = [
       {
         path: 'users',
         loadComponent: () =>
-          import('./features/users/user-list/user-list.component').then((m) => m.UserListComponent),
+          import('./features/users/user-page/user-page.component').then((m) => m.UserPageComponent),
       },
     ],
   },

@@ -1,11 +1,12 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserService } from '../services/user.service';
-import { User } from '../../auth/models/user.model';
-import { UserRole } from '../../auth/models/user-role';
-import { UserFormComponent } from '../components/user-form/user-form.component';
+
 import { FormsModule } from '@angular/forms';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
+import { UserFormComponent } from '../user-form/user-form.component';
+import { UserService } from '../../services/user.service';
+import { User } from '../../../auth/models/user.model';
+import { UserRole } from '../../../auth/models/user-role';
 
 @Component({
   selector: 'app-user-list',
