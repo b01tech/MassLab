@@ -14,6 +14,16 @@
     <Project Path="pkgs/Identity/test/MassLab.Identity.Application.Tests/MassLab.Identity.Application.Tests.csproj" />
     <Project Path="pkgs/Identity/test/MassLab.Identity.Domain.Tests/MassLab.Identity.Domain.Tests.csproj" />
   </Folder>
+  <Folder Name="/pkgs/Registry/" />
+  <Folder Name="/pkgs/Registry/src/">
+    <Project Path="pkgs/Registry/src/MassLab.Registry.Application/MassLab.Registry.Application.csproj" />
+    <Project Path="pkgs/Registry/src/MassLab.Registry.Domain/MassLab.Registry.Domain.csproj" />
+    <Project Path="pkgs/Registry/src/MassLab.Registry.Infrastructure/MassLab.Registry.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/pkgs/Registry/test/">
+    <Project Path="pkgs/Registry/test/MassLab.Registry.Application.Tests/MassLab.Registry.Application.Tests.csproj" />
+    <Project Path="pkgs/Registry/test/MassLab.Registry.Domain.Tests/MassLab.Registry.Domain.Tests.csproj" />
+  </Folder>
   <Folder Name="/pkgs/Shared/">
     <Project Path="pkgs/Shared/MassLab.Shared.Tests/MassLab.Shared.Tests.csproj" />
     <Project Path="pkgs/Shared/MassLab.Shared/MassLab.Shared.csproj" />
