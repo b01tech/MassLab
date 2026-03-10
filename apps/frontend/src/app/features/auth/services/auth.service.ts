@@ -95,10 +95,19 @@ export class AuthService {
 
   private setLoggedInUser(token: string) {
     const payload = this.decodeToken(token);
+    const id = payload.sub ?? payload.nameid;
+    const userName = payload.unique_name;
+    const role = payload.role;
+
+    if (!id || !userName || !role) {
+      this.logoutLocal();
+      return;
+    }
+
     this.loggedUser.set({
-      id: payload.nameid,
-      userName: payload.unique_name,
-      role: payload.role,
+      id,
+      userName,
+      role,
       active: true, // User must be active to login
     });
   }

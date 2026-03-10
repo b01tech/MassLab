@@ -15,10 +15,12 @@ export class UserService {
   users = signal<User[]>([]);
   totalItems = signal<number>(0);
 
-  getUsers(page: number = 1, pageSize: number = 10, searchTerm?: string): Observable<PaginatedUserResponse> {
-    let params = new HttpParams()
-      .set('page', page.toString())
-      .set('pageSize', pageSize.toString());
+  getUsers(
+    page: number = 1,
+    pageSize: number = 10,
+    searchTerm?: string,
+  ): Observable<PaginatedUserResponse> {
+    let params = new HttpParams().set('page', page.toString()).set('pageSize', pageSize.toString());
 
     if (searchTerm) {
       params = params.set('searchTerm', searchTerm);
@@ -46,5 +48,12 @@ export class UserService {
 
   deactivateUser(id: string): Observable<void> {
     return this._http.patch<void>(`${this._apiUrl}/${id}/deactivate`, {});
+  }
+
+  changePassword(id: string, newPassword: string): Observable<void> {
+    return this._http.patch<void>(`${this._apiUrl}/${id}/password`, {
+      userId: id,
+      newPassword,
+    });
   }
 }
