@@ -1,6 +1,7 @@
 using MassLab.Registry.Application.DTOs;
 using MassLab.Registry.Domain.Interfaces;
 using MassLab.Shared.Results;
+using MassLab.Shared.ValueObject;
 
 namespace MassLab.Registry.Application.Queries.Client.GetClients;
 
@@ -13,7 +14,8 @@ public class GetClientsHandler(IClientRepository repository)
 
         var responseItems = clients.Select(MapToResponse).ToList();
 
-        return new PaginatedResponse<ClientResponse>(responseItems, request.Page, request.PageSize, totalCount);
+        var pagination = Pagination.Create(request.Page, request.PageSize, totalCount);
+        return new PaginatedResponse<ClientResponse>(pagination, responseItems);
     }
 
     private static ClientResponse MapToResponse(Domain.Entities.Client client)
