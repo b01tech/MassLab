@@ -49,7 +49,7 @@ public class UpdateOwnerHandlerTests
 
         _repositoryMock.Verify(
             x => x.UpdateAsync(
-                It.Is<Owner>(o => o.LegalName.Value == "New Name" && o.Email.Value == "new@masslab.com"),
+                It.Is<Owner>(o => o.LegalName.Value == "New Name" && o.Email != null && o.Email.Value == "new@masslab.com"),
                 It.IsAny<CancellationToken>()
             ),
             Times.Once

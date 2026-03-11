@@ -58,7 +58,8 @@ public class CreateClientHandlerTests
 
         // Assert
         Assert.True(result.IsSuccess);
-        Assert.Equal("123.456.789-09", Cpf.Create(result.Data.DocumentNumber).Data.Formatted);
+        Assert.NotNull(result.Data.DocumentNumber);
+        Assert.Equal("123.456.789-09", Cpf.Create(result.Data.DocumentNumber!).Data.Formatted);
     }
 
     [Fact]

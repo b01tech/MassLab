@@ -42,7 +42,7 @@ public class GetClientsHandlerTests
 
         // Assert
         Assert.True(result.IsSuccess);
-        Assert.Equal(2, result.Data.TotalItems);
+        Assert.Equal(2, result.Data.Pagination.TotalItems);
         Assert.Equal(2, result.Data.Items.Count());
         Assert.Contains(result.Data.Items, c => c.LegalName == "Client A");
         Assert.Contains(result.Data.Items, c => c.LegalName == "Client B");
@@ -68,6 +68,6 @@ public class GetClientsHandlerTests
         // Assert
         Assert.True(result.IsSuccess);
         Assert.Empty(result.Data.Items);
-        Assert.Equal(0, result.Data.TotalItems);
+        Assert.Equal(0, result.Data.Pagination.TotalItems);
     }
 }
