@@ -2,7 +2,6 @@ using MassLab.Registry.Domain.Entities;
 using MassLab.Shared.ValueObject;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MassLab.Registry.Infrastructure.Persistence.Configurations;
 
@@ -25,7 +24,6 @@ public class ClientConfiguration : IEntityTypeConfiguration<Client>
             name.Property(n => n.Value).HasColumnName("BusinessName").HasMaxLength(255); // Pode ser nulo no Client? No código estava Required, mas mudei para nullable na entidade.
         });
 
-        // Configuração customizada para DocumentNumber polimórfico
         builder.Property(c => c.DocumentNumber)
             .HasConversion(
                 v => v != null ? v.Value : null,
@@ -41,7 +39,7 @@ public class ClientConfiguration : IEntityTypeConfiguration<Client>
             address.Property(a => a.Complement).HasColumnName("Address_Complement").HasMaxLength(100);
             address.Property(a => a.Neighborhood).HasColumnName("Address_Neighborhood").HasMaxLength(100);
             address.Property(a => a.ZipCode).HasColumnName("Address_ZipCode").HasMaxLength(8);
-            
+
             address.OwnsOne(a => a.City, city =>
             {
                 city.Property(c => c.Name).HasColumnName("Address_City").HasMaxLength(100);
@@ -63,15 +61,13 @@ public class ClientConfiguration : IEntityTypeConfiguration<Client>
             phone.Property(p => p.Value).HasColumnName("Phone").HasMaxLength(20);
         });
 
-        // Configuração da coleção de contatos
-        // Owned Collection mapeada para outra tabela
         builder.OwnsMany(c => c.Contacts, contact =>
         {
             contact.ToTable("ClientContacts");
             contact.WithOwner().HasForeignKey("ClientId");
-            contact.HasKey("ClientId", "Email", "Phone"); // Chave composta ou Id sintético?
-            // Melhor usar Id sintético implícito do EF ou configurar propriedades
-            
+            contact.Property<int>("Id").ValueGeneratedOnAdd();
+            contact.HasKey("ClientId", "Id");
+
             contact.OwnsOne(cc => cc.Name, name =>
             {
                 name.Property(n => n.Value).HasColumnName("Name").HasMaxLength(255).IsRequired();
@@ -81,7 +77,7 @@ public class ClientConfiguration : IEntityTypeConfiguration<Client>
             {
                 email.Property(e => e.Value).HasColumnName("Email").HasMaxLength(255).IsRequired();
             });
-            
+
             contact.OwnsOne(cc => cc.Phone, phone =>
             {
                 phone.Property(p => p.Value).HasColumnName("Phone").HasMaxLength(20).IsRequired();
@@ -95,7 +91,7 @@ public class ClientConfiguration : IEntityTypeConfiguration<Client>
             return Cpf.Create(value).Data; // Assumindo dados válidos no banco
         if (value.Length == 14)
             return Cnpj.Create(value).Data;
-        
+
         throw new InvalidOperationException($"Invalid document number length: {value.Length}");
     }
 }

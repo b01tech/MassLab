@@ -1,4 +1,4 @@
-﻿using MassLab.Shared.Errors;
+using MassLab.Shared.Errors;
 using MassLab.Shared.Results;
 
 using System.Linq;
@@ -7,13 +7,24 @@ namespace MassLab.Shared.ValueObject;
 
 public record Address
 {
-    public string Street { get; }
-    public string Number { get; }
-    public string Complement { get; }
-    public string Neighborhood { get; }
-    public string ZipCode { get; }
-    public City City { get; }
-    public State State { get; }
+    public string Street { get; private set; }
+    public string Number { get; private set; }
+    public string Complement { get; private set; }
+    public string Neighborhood { get; private set; }
+    public string ZipCode { get; private set; }
+    public City City { get; private set; }
+    public State State { get; private set; }
+
+    private Address()
+    {
+        Street = "";
+        Number = "";
+        Complement = "";
+        Neighborhood = "";
+        ZipCode = "";
+        City = null!;
+        State = null!;
+    }
 
     private Address(string street, string number, string complement, string neighborhood, string zipCode, City city, State state)
     {

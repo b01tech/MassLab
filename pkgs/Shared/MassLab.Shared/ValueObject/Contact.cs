@@ -5,9 +5,16 @@ namespace MassLab.Shared.ValueObject;
 
 public record Contact
 {
-    public Name Name { get; }
-    public Email Email { get; }
-    public Phone Phone { get; }
+    public Name Name { get; private set; }
+    public Email Email { get; private set; }
+    public Phone Phone { get; private set; }
+
+    private Contact()
+    {
+        Name = null!;
+        Email = null!;
+        Phone = null!;
+    }
 
     private Contact(Name name, Email email, Phone phone)
     {
