@@ -1,5 +1,6 @@
 using MassLab.Registry.Application.DTOs;
 using MassLab.Registry.Domain.Interfaces;
+using MassLab.Shared.Errors;
 using MassLab.Shared.Results;
 
 namespace MassLab.Registry.Application.Queries.Owner.GetOwner;
@@ -10,7 +11,7 @@ public class GetOwnerHandler(IOwnerRepository repository)
     {
         var owner = await repository.GetAsync(cancellationToken);
         if (owner == null)
-            return Result<OwnerResponse>.Failure("Owner not found");
+            return Result<OwnerResponse>.Failure(ErrorMessages.OWNER_NOT_FOUND);
 
         return MapToResponse(owner);
     }

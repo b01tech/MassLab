@@ -219,6 +219,51 @@ namespace MassLab.Shared.Errors
                 return ResourceManager.GetString("REFRESH_TOKEN_INVALID", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Client not found.
+        /// </summary>
+        public static string CLIENT_NOT_FOUND
+        {
+            get
+            {
+                return ResourceManager.GetString("CLIENT_NOT_FOUND", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Owner not found.
+        /// </summary>
+        public static string OWNER_NOT_FOUND
+        {
+            get
+            {
+                return ResourceManager.GetString("OWNER_NOT_FOUND", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Equipment not found.
+        /// </summary>
+        public static string EQUIPMENT_NOT_FOUND
+        {
+            get
+            {
+                return ResourceManager.GetString("EQUIPMENT_NOT_FOUND", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Owner already exists.
+        /// </summary>
+        public static string OWNER_ALREADY_EXISTS
+        {
+            get
+            {
+                return ResourceManager.GetString("OWNER_ALREADY_EXISTS", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Invalid CNPJ.
         /// </summary>

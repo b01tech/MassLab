@@ -45,8 +45,7 @@ public class RemoveClientContactHandlerTests
 
         // Assert
         Assert.True(result.IsSuccess);
-        Assert.Empty(result.Data.Contacts);
-
-        _repositoryMock.Verify(x => x.UpdateAsync(It.IsAny<Client>(), It.IsAny<CancellationToken>()), Times.Once);
+        
+        _repositoryMock.Verify(x => x.UpdateAsync(It.Is<Client>(c => c.Contacts.Count == 0), It.IsAny<CancellationToken>()), Times.Once);
     }
 }

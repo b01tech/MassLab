@@ -173,4 +173,20 @@
     <value>Refresh token is invalid or expired</value>
     <comment/>
   </data>
+  <data name="CLIENT_NOT_FOUND" xml:space="preserve">
+    <value>Client not found</value>
+    <comment/>
+  </data>
+  <data name="OWNER_NOT_FOUND" xml:space="preserve">
+    <value>Owner not found</value>
+    <comment/>
+  </data>
+  <data name="EQUIPMENT_NOT_FOUND" xml:space="preserve">
+    <value>Equipment not found</value>
+    <comment/>
+  </data>
+  <data name="OWNER_ALREADY_EXISTS" xml:space="preserve">
+    <value>Owner already exists</value>
+    <comment/>
+  </data>
 </root>

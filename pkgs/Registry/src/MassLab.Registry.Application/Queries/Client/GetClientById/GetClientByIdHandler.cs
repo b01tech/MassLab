@@ -1,5 +1,6 @@
 using MassLab.Registry.Application.DTOs;
 using MassLab.Registry.Domain.Interfaces;
+using MassLab.Shared.Errors;
 using MassLab.Shared.Results;
 
 namespace MassLab.Registry.Application.Queries.Client.GetClientById;
@@ -9,7 +10,8 @@ public class GetClientByIdHandler(IClientRepository repository)
     public async Task<Result<ClientResponse>> Handle(GetClientByIdQuery request, CancellationToken cancellationToken)
     {
         var client = await repository.GetByIdAsync(request.Id, cancellationToken);
-        if (client == null) return Result<ClientResponse>.Failure("Client not found");
+        if (client == null)
+            return Result<ClientResponse>.Failure(ErrorMessages.CLIENT_NOT_FOUND);
 
         return MapToResponse(client);
     }

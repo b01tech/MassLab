@@ -2,6 +2,7 @@ using MassLab.Registry.Application.DTOs;
 using MassLab.Registry.Domain.Entities;
 using MassLab.Registry.Domain.Enums;
 using MassLab.Registry.Domain.Interfaces;
+using MassLab.Shared.Errors;
 using MassLab.Shared.Persistence;
 using MassLab.Shared.Results;
 
@@ -25,7 +26,7 @@ public class AddScaleHandler(IClientRepository repository, IUnitOfWork unitOfWor
     {
         var client = await repository.GetByIdWithEquipmentsAsync(request.ClientId, cancellationToken);
         if (client == null)
-            return Result<ScaleResponse>.Failure("Client not found");
+            return Result<ScaleResponse>.Failure(ErrorMessages.CLIENT_NOT_FOUND);
 
         var scaleResult = Scale.Create(
             request.Tag,

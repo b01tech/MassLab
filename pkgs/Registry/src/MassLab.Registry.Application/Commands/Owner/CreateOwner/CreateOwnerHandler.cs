@@ -1,5 +1,6 @@
 using MassLab.Registry.Application.DTOs;
 using MassLab.Registry.Domain.Interfaces;
+using MassLab.Shared.Errors;
 using MassLab.Shared.Results;
 using MassLab.Shared.ValueObject;
 
@@ -11,7 +12,7 @@ public class CreateOwnerHandler(IOwnerRepository repository)
     {
         var existingOwner = await repository.GetAsync(cancellationToken);
         if (existingOwner != null)
-            return Result<OwnerResponse>.Failure("Owner already exists");
+            return Result<OwnerResponse>.Failure(ErrorMessages.OWNER_ALREADY_EXISTS);
 
         var legalNameResult = Name.Create(request.LegalName);
         var businessNameResult = Name.Create(request.BusinessName);

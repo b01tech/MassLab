@@ -1,4 +1,5 @@
 using MassLab.Registry.Domain.Interfaces;
+using MassLab.Shared.Errors;
 using MassLab.Shared.Persistence;
 using MassLab.Shared.Results;
 
@@ -12,11 +13,11 @@ public class RemoveEquipmentHandler(IClientRepository repository, IUnitOfWork un
     {
         var client = await repository.GetByIdWithEquipmentsAsync(request.ClientId, cancellationToken);
         if (client == null)
-            return Result.Failure("Client not found");
+            return Result.Failure(ErrorMessages.CLIENT_NOT_FOUND);
 
         var equipment = client.Equipments.FirstOrDefault(e => e.Id == request.EquipmentId);
         if (equipment == null)
-            return Result.Failure("Equipment not found");
+            return Result.Failure(ErrorMessages.EQUIPMENT_NOT_FOUND);
 
         client.RemoveEquipment(equipment);
         

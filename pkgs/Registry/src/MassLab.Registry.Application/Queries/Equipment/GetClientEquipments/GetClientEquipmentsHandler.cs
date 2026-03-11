@@ -1,6 +1,7 @@
 using MassLab.Registry.Application.DTOs;
 using MassLab.Registry.Domain.Entities;
 using MassLab.Registry.Domain.Interfaces;
+using MassLab.Shared.Errors;
 using MassLab.Shared.Results;
 
 namespace MassLab.Registry.Application.Queries.Equipment.GetClientEquipments;
@@ -13,7 +14,7 @@ public class GetClientEquipmentsHandler(IClientRepository repository)
     {
         var client = await repository.GetByIdWithEquipmentsAsync(request.ClientId, cancellationToken);
         if (client == null)
-            return Result<IEnumerable<EquipmentResponse>>.Failure("Client not found");
+            return Result<IEnumerable<EquipmentResponse>>.Failure(ErrorMessages.CLIENT_NOT_FOUND);
 
         var responses = client.Equipments.Select(MapToResponse).ToList();
         return Result<IEnumerable<EquipmentResponse>>.Success(responses);

@@ -1,5 +1,6 @@
 using MassLab.Registry.Application.DTOs;
 using MassLab.Registry.Domain.Interfaces;
+using MassLab.Shared.Errors;
 using MassLab.Shared.Results;
 using MassLab.Shared.ValueObject;
 
@@ -10,7 +11,8 @@ public class UpdateClientHandler(IClientRepository repository)
     public async Task<Result<ClientResponse>> Handle(UpdateClientCommand request, CancellationToken cancellationToken)
     {
         var client = await repository.GetByIdAsync(request.Id, cancellationToken);
-        if (client == null) return Result<ClientResponse>.Failure("Client not found");
+        if (client == null)
+            return Result<ClientResponse>.Failure(ErrorMessages.CLIENT_NOT_FOUND);
 
         var legalNameResult = Name.Create(request.LegalName);
         if (legalNameResult.IsFailure) return Result<ClientResponse>.Failure(legalNameResult.Errors);
