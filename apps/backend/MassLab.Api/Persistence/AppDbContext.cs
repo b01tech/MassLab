@@ -4,7 +4,6 @@ using MassLab.Registry.Domain.Entities;
 using MassLab.Registry.Infrastructure.Persistence;
 using MassLab.Shared.Persistence;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Win32;
 
 namespace MassLab.Api.Persistence;
 
