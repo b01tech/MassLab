@@ -6,6 +6,9 @@ using MassLab.Registry.Application.Commands.Owner.CreateOwner;
 using MassLab.Registry.Application.Commands.Owner.UpdateOwner;
 using MassLab.Registry.Application.Queries.Client.GetClientById;
 using MassLab.Registry.Application.Queries.Client.GetClients;
+using MassLab.Registry.Application.Commands.Equipment.AddScale;
+using MassLab.Registry.Application.Commands.Equipment.RemoveEquipment;
+using MassLab.Registry.Application.Queries.Equipment.GetClientEquipments;
 using MassLab.Registry.Application.Queries.Owner.GetOwner;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -25,6 +28,10 @@ public static class DependencyInjection
         services.AddScoped<RemoveClientContactHandler>();
         services.AddScoped<GetClientByIdHandler>();
         services.AddScoped<GetClientsHandler>();
+
+        services.AddScoped<AddScaleHandler>();
+        services.AddScoped<RemoveEquipmentHandler>();
+        services.AddScoped<GetClientEquipmentsHandler>();
 
         return services;
     }

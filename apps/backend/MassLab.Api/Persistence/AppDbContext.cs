@@ -12,6 +12,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<User> Users => Set<User>();
     public DbSet<Owner> Owners => Set<Owner>();
     public DbSet<Client> Clients => Set<Client>();
+    public DbSet<Equipment> Equipments => Set<Equipment>();
 
     public Task CommitAsync(CancellationToken cancellationToken = default) => SaveChangesAsync(cancellationToken);
 

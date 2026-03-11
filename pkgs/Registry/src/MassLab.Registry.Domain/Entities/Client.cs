@@ -17,6 +17,9 @@ public class Client : Entity
     private readonly List<Contact> _contacts = new();
     public IReadOnlyCollection<Contact> Contacts => _contacts.AsReadOnly();
 
+    private readonly List<Equipment> _equipments = new();
+    public IReadOnlyCollection<Equipment> Equipments => _equipments.AsReadOnly();
+
     protected Client()
     {
         LegalName = null!;
@@ -64,6 +67,24 @@ public class Client : Entity
         if (existing != null)
         {
             _contacts.Remove(existing);
+            SetUpdatedAt();
+        }
+    }
+
+    public void AddEquipment(Equipment equipment)
+    {
+        if (equipment != null)
+        {
+            _equipments.Add(equipment);
+            SetUpdatedAt();
+        }
+    }
+
+    public void RemoveEquipment(Equipment equipment)
+    {
+        if (_equipments.Contains(equipment))
+        {
+            _equipments.Remove(equipment);
             SetUpdatedAt();
         }
     }

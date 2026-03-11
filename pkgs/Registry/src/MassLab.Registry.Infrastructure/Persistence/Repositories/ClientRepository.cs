@@ -12,6 +12,13 @@ public class ClientRepository(IRegistryDbContext context) : IClientRepository
             .FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
     }
 
+    public async Task<Client?> GetByIdWithEquipmentsAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return await context.Clients
+            .Include(c => c.Equipments)
+            .FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
+    }
+
     public async Task<IEnumerable<Client>> GetAllAsync(int page, int pageSize, string? searchTerm = null, CancellationToken cancellationToken = default)
     {
         var query = context.Clients.AsNoTracking();

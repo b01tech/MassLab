@@ -83,6 +83,11 @@ public class ClientConfiguration : IEntityTypeConfiguration<Client>
                 phone.Property(p => p.Value).HasColumnName("Phone").HasMaxLength(20).IsRequired();
             });
         });
+
+        builder.HasMany(c => c.Equipments)
+            .WithOne()
+            .HasForeignKey("ClientId")
+            .OnDelete(DeleteBehavior.Cascade);
     }
 
     private static DocumentNumber CreateDocumentNumber(string value)
