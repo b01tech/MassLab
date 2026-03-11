@@ -1,4 +1,5 @@
 using MassLab.Api.Endpoints.Registry.UseCases.Client;
+using MassLab.Api.Endpoints.Registry.UseCases.Equipment;
 using MassLab.Api.Endpoints.Registry.UseCases.Owner;
 using MassLab.Registry.Application.DTOs;
 
@@ -57,5 +58,20 @@ public static class RegistryEndpoints
             .Produces(StatusCodes.Status204NoContent)
             .Produces(StatusCodes.Status400BadRequest)
             .WithSummary("Remove Contact from Client");
+
+        clientGroup.MapPost("/{id:guid}/equipments/scale", AddScaleUseCase.ExecuteAsync)
+            .Produces<ScaleResponse>(StatusCodes.Status201Created)
+            .Produces(StatusCodes.Status400BadRequest)
+            .WithSummary("Add Scale to Client");
+
+        clientGroup.MapDelete("/{id:guid}/equipments/{equipmentId:guid}", RemoveEquipmentUseCase.ExecuteAsync)
+            .Produces(StatusCodes.Status204NoContent)
+            .Produces(StatusCodes.Status400BadRequest)
+            .WithSummary("Remove Equipment from Client");
+
+        clientGroup.MapGet("/{id:guid}/equipments", GetClientEquipmentsUseCase.ExecuteAsync)
+            .Produces<IEnumerable<EquipmentResponse>>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status400BadRequest)
+            .WithSummary("Get Client Equipments");
     }
 }
